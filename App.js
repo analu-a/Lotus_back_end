@@ -99,6 +99,18 @@ app.post('/v1/Lotus/conteudo/insertConteudo', cors(), bodyParserJSON, async func
     response.status(resultDados.status_code)
     response.json(resultDados)
 })
+
+app.put('/v1/Lotus/conteudo/gestante/:id', cors(), bodyParserJSON, async function(request, response,next){
+    let contentType = request.headers['content-type']
+
+    const id_conteudo = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerConteudo.setEditarConteudo(id_conteudo,dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
 /***************************************************************************************/
 
 app.listen(8080, function(){

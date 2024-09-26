@@ -49,11 +49,9 @@ create table conteudos_gestante
 (
 id_conteudos int not null auto_increment primary key,
 foto_capa varchar(300) not null,
-titulo_conteudo varchar(50),
-data_conteudo date,
-conteudo longtext,
-id_gestante_conteudo_usuario int,
-foreign key (id_gestante_conteudo_usuario) references usuario_gestante (id_usuario_gestante)
+titulo_conteudo varchar(50) not null,
+data_conteudo date not null,
+conteudo longtext not null
 );
 
 insert into conteudos_gestante (foto_capa, titulo_conteudo, data_conteudo, conteudo) values
@@ -62,5 +60,5 @@ insert into conteudos_gestante (foto_capa, titulo_conteudo, data_conteudo, conte
 ("https://lavembebe.com.br/blog/wp-content/uploads/2020/06/alimenta%C3%A7%C3%A3o-na-gravidez.jpg", "O que comer durante a gestação", '2024-04-02', "Uma alimentação saudavel ajuda a manter seu bebe bem");
 desc usuario_gestante;
 
-drop database lotus
+
 

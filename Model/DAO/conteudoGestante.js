@@ -45,6 +45,47 @@ const inserirConteudo = async function(dadosConteudo) {
     }
 }
 
+const editarConteudo = async function (dadosConteudo, id_conteudos) {
+    
+    try {
+
+        let sql
+
+        sql = `update conteudos_gestante set 
+        foto_capa = '${dadosConteudo.foto_capa}',
+        titulo_conteudo = '${dadosConteudo.titulo_conteudo}',
+        data_conteudo = '${dadosConteudo.data_conteudo}',
+        conteudo = '${dadosConteudo.conteudo}'
+        where id_conteudos = ${id_conteudos}`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if (result) {
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+}
+
+const deletarConteudo = async function (id_conteudos) {
+    
+    try {
+        
+        let sql
+        sql = `delete from conteudos_gestante where id_conteudos = ${id_conteudos}`
+
+        let rsConteudo = await prisma.$executeRawUnsafe(sql)
+        return rsConteudo
+
+    } catch (error) {
+        
+        return false
+    }
+}
+
 const returnId = async function () {
 
     try {
@@ -78,6 +119,8 @@ const selectByIdConteudo= async function (id) {
 module.exports={
     selectAllConteudos,
     inserirConteudo,
+    editarConteudo,
+    deletarConteudo,
     returnId,
     selectByIdConteudo
 }
