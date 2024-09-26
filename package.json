@@ -5,7 +5,7 @@
   "main": "App.js",
   "scripts": {
     "build": "npm install",
-    "start": "node app.js"
+    "start": "node App.js"
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
