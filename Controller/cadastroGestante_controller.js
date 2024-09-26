@@ -73,12 +73,10 @@ try {
                     resultDadosCadastro.cadastro = cadastro                  
 
                     resultDadosCadastro.cadastro.id = returnId[0].id
-                    console.log(cadastro);
                     return resultDadosCadastro 
 
                 } else {
 
-                    console.log(novoCadastro, "olá senhores"); 
                     return message.ERROR_INTERNAL_SERVER_DB
                 }
             }

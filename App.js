@@ -86,6 +86,19 @@ app.get('/v1/Lotus/conteudo/gestante', cors(), async function(request, response,
         
    
 })
+
+app.post('/v1/Lotus/conteudo/insertConteudo', cors(), bodyParserJSON, async function(request, response, next){
+
+    let contentType = request.headers['content-type']
+
+    let dadosBody = request.body
+   
+
+    let resultDados = await controllerConteudo.setInserirConteudo(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
 /***************************************************************************************/
 
 app.listen(8080, function(){
