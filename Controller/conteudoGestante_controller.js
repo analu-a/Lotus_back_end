@@ -138,17 +138,18 @@ const setExcluirConteudo = async function (id_conteudos) {
                 if (dadosConteudo) {
                     return message.SUCESS_DELETED_ITEM
                 } else {
-                    return message
+                    return message.ERROR_INTERNAL_SERVER_DB
                 }
                         }
         }
     } catch (error) {
-        
+        return message.ERROR_INTERNAL_SERVER
     }
 }
 
 module.exports={
     getListarConteudos,
     setInserirConteudo,
-    setEditarConteudo
+    setEditarConteudo,
+    setExcluirConteudo
 }

@@ -111,6 +111,16 @@ app.put('/v1/Lotus/conteudo/gestante/:id', cors(), bodyParserJSON, async functio
     response.json(resultDados)
 })
 
+app.delete('/v1/Lotus/conteudo/gestante/deletar/:id', cors(), async function(request, response, next){
+
+    let id_conteudo = request.params.id
+
+    let deleteConteudo = await controllerConteudo.setExcluirConteudo(id_conteudo)
+
+    response.status(deleteConteudo.status_code)
+    response.json(deleteConteudo)
+
+})
 /***************************************************************************************/
 
 app.listen(8080, function(){
