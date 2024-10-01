@@ -7,12 +7,13 @@ const getListarDoula = async function () {
     let cadastro = await cadastroDAO.selectAllDoulas()
 
     if (cadastro) {
-        if (cadastro.lenght) {
+        if (cadastro.length) {
             cadastroDoulaJSON.cadastro = cadastro
-            cadastroDoulaJSON.quantidade = cadastro.lenght
+            cadastroDoulaJSON.quantidade = cadastro.length
             cadastroDoulaJSON.status_code = 200
             return cadastroDoulaJSON
         } else {
+            
             return message.ERROR_NOT_FOUND
         }
     } else {
@@ -22,23 +23,29 @@ const getListarDoula = async function () {
 
 const setInserirNovaDoula = async function (cadastro, contentType) {
     try {
+
         if (String(contentType).toLowerCase() == 'application/json') {
 
             let resultDadosCadastro = {}
 
-            if (cadastro.nome_doula == "" || cadastro.nome_doula == undefined || cadastro.nome_doula.lenght > 80 ||
-                cadastro.sobrenome_doula == "" || cadastro.sobrenome_doula == undefined || cadastro.sobrenome_doula.lenght > 80 ||
-                cadastro.email_doula == "" || cadastro.email_doula == undefined || cadastro.email_doula.lenght > 80 ||
-                cadastro.senha_doula == "" || cadastro.senha_doula == undefined || cadastro.senha_doula.lenght > 80 ||
-                cadastro.cpf_doula == "" || cadastro.cpf_doula == undefined || cadastro.cpf_doula.lenght > 11 ||
-                cadastro.sobremim_doula == "" || cadastro.sobremim_doula == undefined || cadastro.sobremim_doula.lenght > 120 ||
-                cadastro.foto_doula == "" || cadastro.foto_doula == undefined || cadastro.foto_doula.lenght > 300 ||
-                cadastro.tempo_de_atuacao == "" || cadastro.tempo_de_atuacao == undefined || cadastro.tempo_de_atuacao.lenght > 10
+            if (cadastro.nome_doula       == "" || cadastro.nome_doula       == undefined || cadastro.nome_doula.length        > 80 ||
+                cadastro.sobrenome_doula  == "" || cadastro.sobrenome_doula  == undefined || cadastro.sobrenome_doula.length   > 80 ||
+                cadastro.email_doula      == "" || cadastro.email_doula      == undefined || cadastro.email_doula.length       >254 ||
+                cadastro.senha_doula      == "" || cadastro.senha_doula      == undefined || cadastro.senha_doula.length       > 40 ||
+                cadastro.cpf_doula        == "" || cadastro.cpf_doula        == undefined || cadastro.cpf_doula.length         > 11 ||
+                cadastro.sobremim_doula   == "" || cadastro.sobremim_doula   == undefined || cadastro.sobremim_doula.length    >254 ||
+                cadastro.foto_doula       == "" || cadastro.foto_doula       == undefined || cadastro.foto_doula.length        >300 ||
+                cadastro.tempo_de_atuacao == "" || cadastro.tempo_de_atuacao == undefined || cadastro.tempo_de_atuacao.length  >10
             ) {
+
                 return message.ERROR_REQUIRED_FIELDS
+
             } else {
 
-                
+                let novaDoula = await cadastroDAO.inserirDoula(cadastro)
+
+                if (novaDoula) {
+
                     let returnId = await cadastroDAO.returnId()
 
                     resultDadosCadastro.status = message.SUCESS_CREATED_ITEM.status
@@ -46,8 +53,18 @@ const setInserirNovaDoula = async function (cadastro, contentType) {
                     resultDadosCadastro.message = message.SUCESS_CREATED_ITEM.message
                     resultDadosCadastro.cadastro = cadastro
 
-                    resultDadosCadastro.cadastro.id = returnId[0].id
+                    console.log(returnId +  "eu");
+
+                    resultDadosCadastro.cadastro.id = returnId
                     return resultDadosCadastro
+
+                } else {
+
+                    return message.ERROR_INTERNAL_SERVER_DB
+                    
+                }
+                
+                  
             
             }
         } else {
@@ -55,6 +72,7 @@ const setInserirNovaDoula = async function (cadastro, contentType) {
         }
     } catch (error) {
 
+        console.log(error);
         return message.ERROR_INTERNAL_SERVER
     }
 }
@@ -74,9 +92,9 @@ const setEditarDoula = async function (id_usuario_doula, cadastro, contentType) 
                 if (validarId == false) {
                     return message.ERROR_NOT_FOUND
                 } else {
-                    if (cadastro.nome_doula == "" || cadastro.nome_doula == undefined || cadastro.nome_doula.lenght > 80 ||
-                        cadastro.sobrenome_doula == "" || cadastro.sobrenome_doula == undefined || cadastro.sobrenome_doula.lenght > 80 ||
-                        cadastro.email_doula == "" || cadastro.email_doula == undefined || cadastro.email_doula.lenght > 80 ||
+                    if (cadastro.nome_doula == "" || cadastro.nome_doula == undefined || cadastro.nome_doula.length > 80 ||
+                        cadastro.sobrenome_doula == "" || cadastro.sobrenome_doula == undefined || cadastro.sobrenome_doula.length > 80 ||
+                        cadastro.email_doula == "" || cadastro.email_doula == undefined || cadastro.email_doula.lengt > 80 ||
                         cadastro.senha_doula == "" || cadastro.senha_doula == undefined || cadastro.senha_doula.lenght > 80 ||
                         cadastro.cpf_doula == "" || cadastro.cpf_doula == undefined || cadastro.cpf_doula.lenght > 11 ||
                         cadastro.sobremim_doula == "" || cadastro.sobremim_doula == undefined || cadastro.sobremim_doula.lenght > 120 ||

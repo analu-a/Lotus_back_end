@@ -136,22 +136,16 @@ app.get('/v1/Lotus/conteudo/gestante/:id', cors(), async function(request, respo
 
 /************************************* Cadastro doula *********************************/
 
-app.get('/v1/Lotus/cadastro/doula', cors(), async function(request, response,next){
+app.get('/v1/Lotus/cadastro/doula', cors(), async function(request,response,next){
+    let dadosCadastroDoula = await controllerDoula.getListarDoula()
 
-    let dadosCadastro = await controllerDoula.getListarDoula()
-
-        response.status(dadosCadastro.status_code)
-        response.json(dadosCadastro)
-        
-   
+    response.status(dadosCadastroDoula.status_code)
+    response.json(dadosCadastroDoula)
 })
 
-app.post('/v1/Lotus/cadastro/doula', cors(), bodyParserJSON, async function(request, response, next){
-
+app.post('/v1/Lotus/cadastro/doula', cors(), bodyParserJSON, async function(request,response,next){
     let contentType = request.headers['content-type']
-
     let dadosBody = request.body
-   
 
     let resultDados = await controllerDoula.setInserirNovaDoula(dadosBody, contentType)
 

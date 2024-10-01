@@ -31,22 +31,23 @@ const inserirDoula = async function (cadastro){
                     '${cadastro.nome_doula}',
                     '${cadastro.sobrenome_doula}',
                     '${cadastro.email_doula}',
-                    SHA1('${cadastro.senha_doula}',
+                    SHA1('${cadastro.senha_doula}'),
                     '${cadastro.cpf_doula}',
                     '${cadastro.sobremim_doula}',
                     '${cadastro.foto_doula}',
-                    '${cadastro.tempo_de_atuacao}',)
+                    '${cadastro.tempo_de_atuacao}'
                 )`
             
             let result = await prisma.$executeRawUnsafe(sql)
 
+            console.log(result);
             if(result){
                 return true
             }else{
                 return false
             }
     }catch (error) {
-
+        console.log(error);
         return false
     }
 }
@@ -96,11 +97,15 @@ const deletarDoula = async function(id_usuario_doula){
 
 const returnId = async function(){
     try {
-        let sql = 'select CAST(last_insert_id() AS DECIMAL) as id from usuario_doula limit 1'
-        let rsId = await prisma.$executeRawUnsafe(sql)
+        let sql = 'select cast(last_insert_id() as DECIMAL) as id from usuario_doula limit 1;'
+        let rsId = await prisma.$queryRawUnsafe(sql)
+
+        console.log(`rsId: ${rsId}`);
 
         return rsId
     }catch(error) {
+
+        console.log(error);
         return false
     }
 }
