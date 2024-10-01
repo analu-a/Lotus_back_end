@@ -147,9 +147,42 @@ const setExcluirConteudo = async function (id_conteudos) {
     }
 }
 
+const getBuscarConteudoId = async function (id) {
+    try{
+        let id_conteudo = id
+        let conteudoJSON = {}
+    
+        if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
+            return message.ERROR_INVALID_ID
+        } else {
+            let dadosConteudo= await conteudoDAO.selectByIdConteudo(id_conteudo)
+    
+            if (dadosConteudo) {
+                if (dadosConteudo.length) {
+                   conteudoJSON.conteudo = dadosConteudo
+                    conteudoJSON.status_code = 200
+    
+                    return conteudoJSON 
+    
+                } else {
+                    return message.ERROR_NOT_FOUND 
+                }
+    
+            } else {
+                return message.ERROR_INTERNAL_SERVER_DB 
+            }
+        }
+    }catch(error){
+        return message.ERROR_INTERNAL_SERVER
+    }
+
+
+}
+
 module.exports={
     getListarConteudos,
     setInserirConteudo,
     setEditarConteudo,
-    setExcluirConteudo
+    setExcluirConteudo,
+    getBuscarConteudoId
 }

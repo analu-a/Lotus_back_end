@@ -77,7 +77,7 @@ app.delete('/v1/Lotus/cadastro/gestante/deletar/:id', cors(), async function(req
 
 /************************************* Conteudo gestante *******************************/
 
-app.get('/v1/Lotus/conteudo/gestante', cors(), async function(request, response,next){
+app.get('/v1/Lotus/conteudos/gestante', cors(), async function(request, response,next){
 
     let dadosConteudo = await controllerConteudo.getListarConteudos()
 
@@ -87,7 +87,7 @@ app.get('/v1/Lotus/conteudo/gestante', cors(), async function(request, response,
    
 })
 
-app.post('/v1/Lotus/conteudo/insertConteudo', cors(), bodyParserJSON, async function(request, response, next){
+app.post('/v1/Lotus/conteudo/gestante', cors(), bodyParserJSON, async function(request, response, next){
 
     let contentType = request.headers['content-type']
 
@@ -111,7 +111,7 @@ app.put('/v1/Lotus/conteudo/gestante/:id', cors(), bodyParserJSON, async functio
     response.json(resultDados)
 })
 
-app.delete('/v1/Lotus/conteudo/gestante/deletar/:id', cors(), async function(request, response, next){
+app.delete('/v1/Lotus/conteudo/gestante/:id', cors(), async function(request, response, next){
 
     let id_conteudo = request.params.id
 
@@ -120,6 +120,15 @@ app.delete('/v1/Lotus/conteudo/gestante/deletar/:id', cors(), async function(req
     response.status(deleteConteudo.status_code)
     response.json(deleteConteudo)
 
+})
+
+app.get('/v1/Lotus/conteudo/gestante/:id', cors(), async function(request, response, next){
+    let id_gestante = request.params.id
+
+    let dadosConteudo= await controllerConteudo.getBuscarConteudoId(id_gestante)
+
+    response.status(dadosConteudo.status_code)
+    response.json(dadosConteudo)
 })
 /***************************************************************************************/
 
