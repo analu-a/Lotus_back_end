@@ -19,11 +19,12 @@ app.use((request, response, next)=> {
 const bodyParserJSON = bodyParser.json()
 
 /* **************************** Imports de arquivos e bibliotecas do projeto **********/
-
-const controllerCadastro = require('./Controller/cadastroGestante_controller')
-const controllerConteudo = require('./Controller/conteudoGestante_controller')
 const { config } = require('process')
 const { log } = require('console')
+const controllerCadastro = require('./Controller/cadastroGestante_controller')
+const controllerConteudo = require('./Controller/conteudoGestante_controller')
+const controllerDoula = require('./Controller/cadastroDoula_controller')
+
 
 //************************************************************************************** 
 
@@ -132,7 +133,55 @@ app.get('/v1/Lotus/conteudo/gestante/:id', cors(), async function(request, respo
 })
 /***************************************************************************************/
 
+
+/************************************* Cadastro doula *********************************/
+
+app.get('/v1/Lotus/cadastro/doula', cors(), async function(request, response,next){
+
+    let dadosCadastro = await controllerDoula.getListarDoula()
+
+        response.status(dadosCadastro.status_code)
+        response.json(dadosCadastro)
+        
+   
+})
+
+app.post('/v1/Lotus/cadastro/doula', cors(), bodyParserJSON, async function(request, response, next){
+
+    let contentType = request.headers['content-type']
+
+    let dadosBody = request.body
+   
+
+    let resultDados = await controllerDoula.setInserirNovaDoula(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.put('/v1/Lotus/cadastro/doula/:id', cors(), bodyParserJSON, async function(request, response,next){
+    let contentType = request.headers['content-type']
+
+    const id_doula = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerDoula.setEditarDoula(id_doula,dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.delete('/v1/Lotus/cadastro/doula/:id', cors(), async function(request, response, next){
+
+    let id_doula = request.params.id
+
+    let deleteCadastro = await controllerDoula.setExcluirDoula(id_doula)
+
+    response.status(deleteCadastro.status_code)
+    response.json(deleteCadastro)
+
+})
+/***************************************************************************************/
+
 app.listen(8080, function(){
     console.log('API funcionando e aguardando requisições')
 })
-
