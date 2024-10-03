@@ -23,7 +23,7 @@ const selectValidarLogin = async function(email,senha){
     try {
         let sql
 
-        sql = `select id_usuario_gestante,email_gestante from usuario_gestante where email_gestante = '${email}' and senha_gestante = '${senha}'`
+        sql = `select id_usuario_gestante,email_gestante from usuario_gestante where email_gestante = '${email}' and senha_gestante = sha1('${senha}')`
 
         let rsUsuario = await prisma.$queryRawUnsafe(sql)
 
