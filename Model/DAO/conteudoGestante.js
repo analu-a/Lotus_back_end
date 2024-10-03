@@ -45,6 +45,8 @@ const inserirConteudo = async function(dadosConteudo) {
     }
 }
 
+
+
 const editarConteudo = async function (dadosConteudo, id_conteudos) {
     
     try {

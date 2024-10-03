@@ -17,6 +17,8 @@ const SUCESS_DELETED_ITEM = {status: true, status_code: 200, message: 'Item excl
 
 const SUCESS_EDITED_ITEM = {status: true, status_code:200, message: 'Item editado com sucesso'}
 
+const SUCESS_VALIDATED_ITEM = {status: true, status_code:200, message: 'Item validado com sucesso'}
+
 //ola
 
 module.exports = {
@@ -28,5 +30,6 @@ module.exports = {
     ERROR_CONTENT_TYPE,
     ERROR_INTERNAL_SERVER,
     SUCESS_DELETED_ITEM,
-    SUCESS_EDITED_ITEM
+    SUCESS_EDITED_ITEM,
+    SUCESS_VALIDATED_ITEM
 }

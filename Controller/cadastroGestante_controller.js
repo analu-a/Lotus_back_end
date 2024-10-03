@@ -22,6 +22,48 @@ if (cadastro) {
 }
 }
 
+const getValidarLogin = async function (email_gestante,senha_gestante,contentType){
+
+    try {
+        if (String(contentType).toLowerCase() == 'application/json') {
+            
+            let email = email_gestante
+            let senha = senha_gestante
+            let usuarioJSON = {}
+
+
+            if (email == '' || email == undefined || senha == '' || senha == undefined) {
+                return message.ERROR_REQUIRED_FIELDS
+            } else {
+                let dadosUsuario = await cadastroDAO.selectValidarLogin(email,senha)
+
+                if (dadosUsuario) {
+                                console.log(dadosUsuario);
+
+                    if (dadosUsuario.length > 0) {
+
+                        usuarioJSON.status = message.SUCESS_VALIDATED_ITEM.status
+                        usuarioJSON.status_code = message.SUCESS_VALIDATED_ITEM.status_code
+                        usuarioJSON.message = message.SUCESS_VALIDATED_ITEM.message
+                        usuarioJSON.usuario = dadosUsuario
+
+                        return usuarioJSON
+                    } else {
+                        return message.ERROR_NOT_FOUND
+                    }
+                } else {
+                    return message.ERROR_INTERNAL_SERVER_DB
+                }
+            }
+
+        } else {
+            return message.ERROR_CONTENT_TYPE
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER
+    }
+}
+
 const setInserirNovoCadastro = async function(cadastro, contentType){
 try {
  
@@ -201,6 +243,7 @@ module.exports={
     getListarCadastro,
     setInserirNovoCadastro,
     setEditarCadastro,
-    setExcluirCadastro
+    setExcluirCadastro,
+    getValidarLogin
 }
 

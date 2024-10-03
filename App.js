@@ -24,6 +24,7 @@ const { log } = require('console')
 const controllerCadastro = require('./Controller/cadastroGestante_controller')
 const controllerConteudo = require('./Controller/conteudoGestante_controller')
 const controllerDoula = require('./Controller/cadastroDoula_controller')
+const { request } = require('http')
 
 
 //************************************************************************************** 
@@ -73,6 +74,17 @@ app.delete('/v1/Lotus/cadastro/gestante/deletar/:id', cors(), async function(req
     response.status(deleteCadastro.status_code)
     response.json(deleteCadastro)
 
+})
+
+app.post('/v1/Lotus/cadastro/gestante/login', cors(), bodyParserJSON, async function(request, response, next){
+
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+    console.log(dadosBody);
+    let dadosUsuario = await controllerCadastro.getValidarLogin(dadosBody.email_gestante, dadosBody.senha_gestante, contentType)
+
+    response.status(dadosUsuario.status_code)
+    response.json(dadosUsuario)
 })
 /***************************************************************************************/
 

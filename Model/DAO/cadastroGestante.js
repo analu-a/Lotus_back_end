@@ -18,6 +18,25 @@ const selectAllCadastrados = async function () {
     }
 }
 
+const selectValidarLogin = async function(email,senha){
+
+    try {
+        let sql
+
+        sql = `select id_usuario_gestante,email_gestante from usuario_gestante where email_gestante = '${email}' and senha_gestante = '${senha}'`
+
+        let rsUsuario = await prisma.$queryRawUnsafe(sql)
+
+        console.log(rsUsuario);
+
+        return rsUsuario
+
+    } catch (error) {
+        console.log(error);
+        return false
+    }
+}
+
 const inserirCadastro = async function (cadastro) {
     try {
         let sql
@@ -196,7 +215,8 @@ module.exports = {
     editarCadastro,
     deletarCadastro,
     returnId,
-    selectByIdCadastro
+    selectByIdCadastro,
+    selectValidarLogin
 }
 
 //console.log(ola)
