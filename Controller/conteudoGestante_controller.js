@@ -25,7 +25,7 @@ if (conteudosDados) {
 const setInserirConteudo = async function(dadosConteudo, contentType){
     try {
         
-        if (String(contentType).toLocaleLowerCase() == 'application/json') {
+        if (String(contentType).toLowerCase() == 'application/json') {
             
             let resultDadosConteudo = {}
 
@@ -71,7 +71,7 @@ const setEditarConteudo = async function (id_conteudos,dadosConteudo,contentType
     
     try {
         
-        if (String(contentType).toLocaleLowerCase() == 'application/json') {
+        if (String(contentType).toLowerCase() == 'application/json') {
             
             let resultDadosConteudo = {}
             let id_conteudo = id_conteudos
