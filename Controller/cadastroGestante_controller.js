@@ -78,21 +78,28 @@ try {
             cadastro.peso_gestante == "" || cadastro.peso_gestante == undefined || cadastro.peso_gestante.length > 10 ||
             cadastro.altura_gestante == "" || cadastro.altura_gestante == undefined || cadastro.altura_gestante.length > 10 ||
             cadastro.email_gestante == "" || cadastro.email_gestante == undefined || cadastro.email_gestante.length > 254 ||
-            cadastro.senha_gestante == "" || cadastro.senha_gestante == undefined || cadastro.senha_gestante.length > 40 
+            cadastro.senha_gestante == "" || cadastro.senha_gestante == undefined || cadastro.senha_gestante.length > 40 ||
+            cadastro.cpf_gestante == "" || cadastro.cpf_gestante == undefined || cadastro.cpf_gestante.length > 14 ||
+            cadastro.data_nascimento_gestante == "" || cadastro.data_nascimento_gestante == undefined || cadastro.data_nascimento_gestante.length > 10 ||
+            cadastro.profissao_gestante == "" || cadastro.profissao_gestante == undefined || cadastro.profissao_gestante.length > 50 ||
+            cadastro.semanas_de_gravidez == "" || cadastro.semanas_de_gravidez == undefined || cadastro.semanas_de_gravidez.length > 10 
         ) {
+console.log(cadastro);
 
+            console.log('sou eu');
+            
             return message.ERROR_REQUIRED_FIELDS 
 
         } else {
 
             let validarDados = false
 
-            if (cadastro.foto_gestante != null &&
-                cadastro.foto_gestante != undefined &&
-                cadastro.foto_gestante != ""
+            if (cadastro.foto_gestante != null && cadastro.foto_gestante != undefined && cadastro.foto_gestante != "" ||
+                cadastro.nome_bebe != null && cadastro.nome_bebe != undefined && cadastro.nome_bebe != ""
             ) {
-                if (cadastro.foto_gestante.length > 300) {
+                if (cadastro.foto_gestante.length > 300  && cadastro.nome_bebe > 80) {
 
+                    
                     return message.ERROR_REQUIRED_FIELDS
                 } else {
                     validarDados = true 
@@ -158,7 +165,11 @@ const setEditarCadastro = async function(id_usuario_gestante,cadastro,contentTyp
                         cadastro.peso_gestante == "" || cadastro.peso_gestante == undefined || cadastro.peso_gestante.length > 10 ||
                         cadastro.altura_gestante == "" || cadastro.altura_gestante == undefined || cadastro.altura_gestante.length > 10 ||
                         cadastro.email_gestante == "" || cadastro.email_gestante == undefined || cadastro.email_gestante.length > 254 ||
-                        cadastro.senha_gestante == "" || cadastro.senha_gestante == undefined || cadastro.senha_gestante.length > 40
+                        cadastro.senha_gestante == "" || cadastro.senha_gestante == undefined || cadastro.senha_gestante.length > 40 ||
+                        cadastro.cpf_gestante == "" || cadastro.cpf_gestante == undefined || cadastro.cpf_gestante.length > 14 ||
+                        cadastro.data_nascimento_gestante == "" || cadastro.data_nascimento_gestante == undefined || cadastro.data_nascimento_gestante.length > 10 ||
+                        cadastro.profissao_gestante == "" || cadastro.profissao_gestante == undefined || cadastro.profissao_gestante.length > 50 ||
+                        cadastro.semanas_de_gravidez == "" || cadastro.semanas_de_gravidez == undefined || cadastro.semanas_de_gravidez.length > 10 
                     ) {
 
                        return message.ERROR_REQUIRED_FIELDS
@@ -167,11 +178,10 @@ const setEditarCadastro = async function(id_usuario_gestante,cadastro,contentTyp
                         
                         let validarDados = false
 
-                        if (cadastro.foto_gestante != undefined &&
-                            cadastro.foto_gestante != "" &&
-                            cadastro.foto_gestante != null) {
+                        if (cadastro.foto_gestante != undefined && cadastro.foto_gestante != "" && cadastro.foto_gestante != null ||
+                            cadastro.nome_bebe != null && cadastro.nome_bebe != undefined && cadastro.nome_bebe != "") {
 
-                                if (cadastro.foto_gestante.length > 300) {
+                                if (cadastro.foto_gestante.length > 300 || cadastro.nome_bebe.length > 80) {
                                     return message.ERROR_REQUIRED_FIELDS
                                 } else {
                                     validarDados = true

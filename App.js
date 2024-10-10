@@ -41,7 +41,7 @@ app.get('/v1/Lotus/cadastro/gestante', cors(), async function(request, response,
    
 })
 
-app.post('/v1/Lotus/cadastro/insertGestante', cors(), bodyParserJSON, async function(request, response, next){
+app.post('/v1/Lotus/cadastro/Gestante', cors(), bodyParserJSON, async function(request, response, next){
 
     let contentType = request.headers['content-type']
 
@@ -65,7 +65,7 @@ app.put('/v1/Lotus/cadastro/gestante/:id', cors(), bodyParserJSON, async functio
     response.json(resultDados)
 })
 
-app.delete('/v1/Lotus/cadastro/gestante/deletar/:id', cors(), async function(request, response, next){
+app.delete('/v1/Lotus/cadastro/gestante/:id', cors(), async function(request, response, next){
 
     let id_gestante = request.params.id
 

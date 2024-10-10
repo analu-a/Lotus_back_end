@@ -27,7 +27,6 @@ const selectValidarLogin = async function(email,senha){
 
         let rsUsuario = await prisma.$queryRawUnsafe(sql)
 
-        console.log(rsUsuario);
 
         return rsUsuario
 
@@ -40,9 +39,9 @@ const selectValidarLogin = async function(email,senha){
 const inserirCadastro = async function (cadastro) {
     try {
         let sql
-        if (cadastro.foto_gestante == null ||
-            cadastro.foto_gestante == "" ||
-            cadastro.foto_gestante == undefined) {
+        if (cadastro.foto_gestante == null || cadastro.foto_gestante == "" || cadastro.foto_gestante == undefined ||
+            cadastro.nome_bebe == null || cadastro.nome_bebe == "" || cadastro.nome_bebe == undefined
+        ) {
 
             sql = `insert into usuario_gestante(
                 nome_gestante,
@@ -52,7 +51,12 @@ const inserirCadastro = async function (cadastro) {
                 altura_gestante,
                 email_gestante, 
                 senha_gestante, 
-                foto_gestante
+                foto_gestante,
+                cpf_gestante,
+                data_nascimento_gestante,
+                profissao_gestante,
+                nome_bebe,
+                semanas_de_gravidez
              ) values(
                  '${cadastro.nome_gestante}',
                  '${cadastro.sobrenome_gestante}',
@@ -73,7 +77,12 @@ const inserirCadastro = async function (cadastro) {
             altura_gestante,
             email_gestante, 
             senha_gestante, 
-            foto_gestante
+            foto_gestante,
+            cpf_gestante,
+            data_nascimento_gestante,
+            profissao_gestante,
+            nome_bebe,
+            semanas_de_gravidez
          ) values(
              '${cadastro.nome_gestante}',
              '${cadastro.sobrenome_gestante}',
@@ -82,7 +91,12 @@ const inserirCadastro = async function (cadastro) {
              '${cadastro.altura_gestante}',
              '${cadastro.email_gestante}',
              SHA1('${cadastro.senha_gestante}'),
-             '${cadastro.foto_gestante}'
+             '${cadastro.foto_gestante}',
+             '${cadastro.cpf_gestante}',
+             '${cadastro.data_nascimento_gestante}',
+             '${cadastro.profissao_gestante}',
+             '${cadastro.nome_bebe}',
+             '${cadastro.semanas_de_gravidez}'
          )`
 
             
@@ -112,9 +126,9 @@ const editarCadastro = async function (cadastro, id_usuario_gestante) {
 
         let sql
 
-        if (cadastro.foto_gestante == null ||
-            cadastro.foto_gestante == "" ||
-            cadastro.foto_gestante == undefined) {
+        if (cadastro.foto_gestante == null || cadastro.foto_gestante == "" || cadastro.foto_gestante == undefined ||
+            cadastro.nome_bebe == null || cadastro.nome_bebe == "" || cadastro.nome_bebe == undefined
+        ) {
 
             sql = `update usuario_gestante set
                 nome_gestante = '${cadastro.nome_gestante}',
@@ -124,7 +138,12 @@ const editarCadastro = async function (cadastro, id_usuario_gestante) {
                 altura_gestante = '${cadastro.altura_gestante}',
                 email_gestante = '${cadastro.email_gestante}',
                 senha_gestante = '${cadastro.senha_gestante}',
-                foto_gestante = null
+                foto_gestante = null,
+                cpf_gestante = '${cadastro.cpf_gestante}',
+                data_nascimento_gestante = '${cadastro.data_nascimento_gestante}',
+                profissao_gestante = '${cadastro.profissao_gestante}',
+                nome_bebe = null,
+                semanas_de_gravidez = '${cadastro.semanas_de_gravidez}'
                 where id_usuario_gestante = ${id_usuario_gestante}`
 
         } else {
@@ -137,7 +156,12 @@ const editarCadastro = async function (cadastro, id_usuario_gestante) {
                 altura_gestante = '${cadastro.altura_gestante}',
                 email_gestante = '${cadastro.email_gestante}',
                 senha_gestante = '${cadastro.senha_gestante}',
-                foto_gestante = '${cadastro.foto_gestante}'
+                foto_gestante = '${cadastro.foto_gestante}',
+                cpf_gestante = '${cadastro.cpf_gestante}',
+                data_nascimento_gestante = '${cadastro.data_nascimento_gestante}',
+                profissao_gestante = '${cadastro.profissao_gestante}',
+                nome_bebe = '${cadastro.nome_bebe}',
+                semanas_de_gravidez = '${cadastro.semanas_de_gravidez}'
                 where id_usuario_gestante = ${id_usuario_gestante}`
         }
 

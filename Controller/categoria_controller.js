@@ -56,4 +56,27 @@ setInseriCategoria = async function (dadosCategoria, contentType){
     }
 }
 
-const setEditarCategoria = async function (id_categoria, dadosCategoria, contentType)
+
+const setEditarCategoria = async function (id_categoria, dadosCategoria, contentType) {
+    
+    try {
+        
+        if (String(contentType).toLowerCase() == 'application/json') {
+            
+            let resultDadosCategoria = {}
+            let id_categorias = id_categoria
+
+            if (id_categorias == '' || id_categorias == undefined || isNaN(id_categorias)) {
+                return message.ERROR_INVALID_ID
+            } else {
+
+                
+               
+            }
+        } else {
+            return message.ERROR_CONTENT_TYPE
+        }
+    } catch (error) {
+        
+    }
+}
