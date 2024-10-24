@@ -24,6 +24,7 @@ const { log } = require('console')
 const controllerCadastro = require('./Controller/cadastroGestante_controller')
 const controllerConteudo = require('./Controller/conteudoGestante_controller')
 const controllerDoula = require('./Controller/cadastroDoula_controller')
+const controllerCategoria = require('./Controller/categoria_controller')
 const { request } = require('http')
 
 
@@ -186,6 +187,27 @@ app.delete('/v1/Lotus/cadastro/doula/:id', cors(), async function(request, respo
     response.json(deleteCadastro)
 
 })
+/***************************************************************************************/
+
+/************************************* Cadastro doula *********************************/
+
+app.get('/v1/Lotus/categoria', cors(), async function(request,response,next){
+    let dadosCategoria = await controllerCategoria.getListarCategoria()
+
+    response.status(dadosCategoria.status_code)
+    response.json(dadosCategoria)
+})
+
+app.post('v1/Lotus/categoria', cors(), bodyParserJSON, async function(request,response,next){
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let resultDados = await controllerCategoria.setInseriCategoria(dadosBody.contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
 /***************************************************************************************/
 
 app.listen(8080, function(){
