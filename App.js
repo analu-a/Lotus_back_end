@@ -25,6 +25,7 @@ const controllerCadastro = require('./Controller/cadastroGestante_controller')
 const controllerConteudo = require('./Controller/conteudoGestante_controller')
 const controllerDoula = require('./Controller/cadastroDoula_controller')
 const controllerCategoria = require('./Controller/categoria_controller')
+const controllerGaleria = require('./Controller/galeriaGestante_controller')
 const { request } = require('http')
 
 
@@ -208,6 +209,111 @@ app.post('v1/Lotus/categoria', cors(), bodyParserJSON, async function(request,re
     response.json(resultDados)
 })
 
+/***************************************************************************************/
+
+/****************************************Galeria Gestante***********************************/
+app.get('/v1/Lotus/galeria/gestante', cors(), async function(request, response, next) {
+
+    let dadosGaleria = await controllerGaleria.getListarFotoGaleria()
+
+    response.status(dadosGaleria.status_code)
+    response.json(dadosGaleria)
+
+})
+
+app.post('/v1/Lotus/galeria/gestante', cors(), bodyParserJSON, async function(request, response, next){
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let resultDados = await controllerGaleria.setInserirNovaFoto(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.put('/v1/Lotus/galeria/gestante/:id', cors(), bodyParserJSON, async function(request, response, next){
+    let contentType = request.headers['content-type']
+
+    const id_foto = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerGaleria.setEditarFoto(id_foto, dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.delete('/v1/Lotus/galeria/gestante/:id', cors(), async function(request, response, next){
+
+    let id_foto = request.params.id
+
+    let deleteFoto = await controllerGaleria.setExcluirFoto(id_foto)
+
+    response.status(deleteFoto.status_code)
+    response.json(deleteFoto)
+
+})
+
+app.get('/v1/Lotus/galeria/gestante/:id', cors(), async function(request, response, next){
+    let id_foto = request.params.id
+
+    let dadosFoto = await controllerGaleria.getBuscarFotoId(id_foto)
+
+    response.status(dadosFoto.status_code)
+    response.json(dadosFoto)
+})
+/***************************************************************************************/
+
+/**************************************** Categoria ***********************************/
+
+app.get('/v1/Lotus/categoria', cors(), async function(request, response, next){
+
+    let dadosCategoria = await controllerCategoria.getListarCategorias()
+
+    response.status(dadosCategoria.status_code)
+    response.json(dadosCategoria)
+
+})    
+
+app.post('/v1/Lotus/categoria', cors(), bodyParserJSON, async function (request, response, next){
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let resultDados = await controllerCategoria.setInserirCategoria(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.put('/v1/Lotus/categoria/:id', cors(), bodyParserJSON, async function(request, response, next){
+    let contentType = request.headers['content-type']
+
+    const id_categoria = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerCategoria.setEditarCategoria(id_categoria, dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.delete('/v1/Lotus/categoria/:id', cors(), async function(request, response, next){
+
+    let id_categoria = request.params.id
+
+    let deleteCategoria = await controllerCategoria.setExcluirCategoria(id_categoria)
+
+    response.status(deleteCategoria.status_code)
+    response.json(deleteCategoria)
+
+})
+
+app.get('/v1/Lotus/categoria/:id', cors(), async function(request, response, next){
+    let id_categoria = request.params.id
+
+    let dadosCategoria = await controllerCategoria.getBuscarCategoriaById(id_categoria)
+
+    response.status(dadosCategoria.status_code)
+    response.json(dadosCategoria)
+})
 /***************************************************************************************/
 
 app.listen(8080, function(){
