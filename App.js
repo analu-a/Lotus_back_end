@@ -212,7 +212,7 @@ app.post('v1/Lotus/categoria', cors(), bodyParserJSON, async function(request,re
 /***************************************************************************************/
 
 /****************************************Galeria Gestante***********************************/
-app.get('/v1/Lotus/galeria/gestante', cors(), async function(request, response, next) {
+app.get('/v1/Lotus/galeria/gestantes', cors(), async function(request, response, next) {
 
     let dadosGaleria = await controllerGaleria.getListarFotoGaleria()
 
