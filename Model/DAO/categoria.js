@@ -19,21 +19,25 @@ const inserirCategoria = async function(dadosCategoria){
     try {
         let sql 
 
-        sql = `insert into categoria_conteudo(
+        sql =
+         `insert into categoria_conteudo(
         titulo_categoria
         ) values (
-        ${dadosCategoria.titulo_categoria} 
+        '${dadosCategoria.titulo_categoria}'
         )`
-
+        
         let result = await prisma.$executeRawUnsafe(sql)
 
         if (result) {
+            
             return true
         } else {
+            
             return false
         }
 
     } catch (error) {
+        console.log(error);
         return false
     }
 }
@@ -44,7 +48,7 @@ const editarCategoria = async function (dadosCategoria, id_categoria) {
         let sql
 
         sql = `update categoria_conteudo set
-        titulo_categoria - '${dadosCategoria.titulo_categoria}'
+        titulo_categoria = '${dadosCategoria.titulo_categoria}'
         where id_categoria = ${id_categoria}`
 
         let result = await prisma.$executeRawUnsafe(sql)
@@ -61,7 +65,7 @@ const editarCategoria = async function (dadosCategoria, id_categoria) {
 
 const deletarCategoria = async function (id_categoria){
     try {
-        let sql = 
+        let sql
         sql = `delete from categoria_conteudo where id_categoria = ${id_categoria}`
 
         let rsCategoria = await prisma.$executeRawUnsafe(sql)
@@ -74,7 +78,9 @@ const deletarCategoria = async function (id_categoria){
 
 const returnId = async function (){
     try {
-        let sql = 'select CAST(last_insert_id() AS DECIMAL as id from categoria_conteudo limit 1)'
+
+
+        let sql = 'select CAST(last_insert_id() AS DECIMAL) as id from categoria_conteudo limit 1'
         let rsId = await prisma.$queryRawUnsafe(sql)
 
         return rsId
@@ -89,6 +95,7 @@ const selectByIdCategoria = async function (id){
         let sql = `select * from categoria_conteudo where id_categoria = ${id}`
 
         let rsCategoria = await prisma.$queryRawUnsafe(sql)
+      
         return rsCategoria
 
     } catch (error) {

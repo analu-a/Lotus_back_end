@@ -20,29 +20,48 @@ const getListarFotoGaleria = async function () {
         return message.ERROR_INTERNAL_SERVER_DB
     }
 }
-//colocar validação de id: fazer um get do id de usuarios e fazer a validacao, vou ter que pegar de outra tabela.
+
 const setInserirFoto = async function (dadosFoto, contentType) {
     try {
-
         if (String(contentType).toLowerCase() == 'application/json') {
 
             let resultDadosGaleria = {}
-
             if (dadosFoto.foto_galeria == "" || dadosFoto.foto_galeria == undefined || dadosFoto.foto_galeria.length > 300 ||
                 dadosFoto.titulo_galeria == "" || dadosFoto.titulo_galeria == undefined || dadosFoto.titulo_galeria.length > 60 ||
                 dadosFoto.descricao_galeria == "" || dadosFoto.descricao_galeria == undefined || dadosFoto.descricao_galeria.length > 254 ||
-                dadosFoto.data_foto == "" || dadosFoto.data_foto == undefined || dadosFoto.data_foto.length > 10) {
-
+                dadosFoto.data_foto == "" || dadosFoto.data_foto == undefined || dadosFoto.data_foto.length > 10 ||
+                 dadosFoto.id_gestante_usuario_galeria == '' || dadosFoto.id_gestante_usuario_galeria == undefined || isNaN(dadosFoto.id_gestante_usuario_galeria)
+                ) 
+                  {
+              
                     return message.ERROR_REQUIRED_FIELDS
 
             } else {
-                let novaFoto
+
+                let novaFoto = await galeriaGestante.inserirFoto(dadosFoto)
+
+                if (novaFoto) {
+
+                    let returnId = await galeriaGestante.returnId()
+                   
+                    resultDadosGaleria.status = message.SUCESS_CREATED_ITEM.status
+                    resultDadosGaleria.status_code = message.SUCESS_CREATED_ITEM.status_code
+                    resultDadosGaleria.message = message.SUCESS_CREATED_ITEM.message
+                    resultDadosGaleria.galeria = dadosFoto
+             
+                    resultDadosGaleria.galeria.id = returnId[0].id
+                    return resultDadosGaleria
+                } else {
+                    return message.ERROR_INTERNAL_SERVER_DB
+                }
             }
         } else {
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+        console.log(error);
 
+return message.ERROR_INTERNAL_SERVER
     }
 }
 
@@ -52,42 +71,48 @@ const setExcluirFoto = async function (id) {
         let id_foto = id
 
         if (id_foto == '' || id_foto == undefined || isNaN(id_foto)) {
+            
             return message.ERROR_INVALID_ID
         } else {
-            let validarId = await galeriaDAO.selectByIdFoto(id_foto)
+            
+            let validarId = await galeriaGestante.selectByIdFoto(id_foto)
 
             if (validarId == false) {
                 return message.ERROR_NOT_FOUND
             } else {
-                let dadosFoto = await galeriaDAO.deletarFoto(id)
+              
+
+                let dadosFoto = await galeriaGestante.deletarFoto(id_foto)
 
                 if (dadosFoto) {
+                
                     return message.SUCESS_DELETED_ITEM
                 } else {
-
+                  
                     return message.ERROR_INTERNAL_SERVER_DB
                 }
             }
         }
     } catch (error) {
+        console.log(error);
         return message.ERROR_INTERNAL_SERVER
     }
 }
 
-//FAZER O DAO DESTA FUNÇÃO
+
 const setEditarFoto = async function (id_foto, dadosGaleria, contentType) {
 
     try {
         if (String(contentType).toLowerCase() == 'application/json') {
 
             let resultDadosGaleria = {}
-            let id_foto = id_foto
+            let id_fotos = id_foto
 
-            if (id_foto == '' || id_foto == undefined || isNaN(id_foto)) {
+            if (id_fotos == '' || id_fotos == undefined || isNaN(id_fotos)) {
                 return message.ERROR_INVALID_ID
             } else {
 
-                let validarId = await galeriaGestanteDAO.selectByIdFoto(id_foto)
+                let validarId = await galeriaGestante.selectByIdFoto(id_foto)
 
                 if (validarId == false) {
                     return message.ERROR_NOT_FOUND
@@ -122,6 +147,8 @@ const setEditarFoto = async function (id_foto, dadosGaleria, contentType) {
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+console.log(error);
+
         return message.ERROR_INTERNAL_SERVER
     }
 }

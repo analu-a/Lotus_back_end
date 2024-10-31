@@ -225,8 +225,8 @@ app.post('/v1/Lotus/galeria/gestante', cors(), bodyParserJSON, async function(re
     let contentType = request.headers['content-type']
     let dadosBody = request.body
 
-    let resultDados = await controllerGaleria.setInserirNovaFoto(dadosBody, contentType)
-
+    let resultDados = await controllerGaleria.setInserirFoto(dadosBody, contentType)
+console.log('aqui');
     response.status(resultDados.status_code)
     response.json(resultDados)
 })
@@ -235,6 +235,8 @@ app.put('/v1/Lotus/galeria/gestante/:id', cors(), bodyParserJSON, async function
     let contentType = request.headers['content-type']
 
     const id_foto = request.params.id
+
+    console.log(id_foto);
     let dadosBody = request.body
     let resultDados = await controllerGaleria.setEditarFoto(id_foto, dadosBody, contentType)
 
@@ -278,7 +280,7 @@ app.post('/v1/Lotus/categoria', cors(), bodyParserJSON, async function (request,
     let contentType = request.headers['content-type']
     let dadosBody = request.body
 
-    let resultDados = await controllerCategoria.setInserirCategoria(dadosBody, contentType)
+    let resultDados = await controllerCategoria.setInseriCategoria(dadosBody, contentType)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
@@ -309,7 +311,7 @@ app.delete('/v1/Lotus/categoria/:id', cors(), async function(request, response, 
 app.get('/v1/Lotus/categoria/:id', cors(), async function(request, response, next){
     let id_categoria = request.params.id
 
-    let dadosCategoria = await controllerCategoria.getBuscarCategoriaById(id_categoria)
+    let dadosCategoria = await controllerCategoria.getBuscarCategoriaId(id_categoria)
 
     response.status(dadosCategoria.status_code)
     response.json(dadosCategoria)

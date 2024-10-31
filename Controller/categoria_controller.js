@@ -42,6 +42,7 @@ setInseriCategoria = async function (dadosCategoria, contentType){
                     resultDadosCategoria.categoria = dadosCategoria
 
                     resultDadosCategoria.categoria.id = returnId[0].id
+                  
                     return resultDadosCategoria
                 } else {
                     return message.ERROR_INTERNAL_SERVER_DB
@@ -52,6 +53,7 @@ setInseriCategoria = async function (dadosCategoria, contentType){
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
+        console.log(error);
         return message.ERROR_INTERNAL_SERVER
     }
 }
@@ -107,7 +109,8 @@ const setExcluirCategoria = async function (id_categoria){
     try {
         let id_categorias = id_categoria
 
-        if (id_categorias = '' || id_categorias == undefined || isNaN(id_categorias)) {
+        if (id_categorias == '' || id_categorias == undefined || isNaN(id_categorias)) {
+
             return message.ERROR_INVALID_ID
         } else {
             let validarId = await categoriaDAO.selectByIdCategoria(id_categorias)
@@ -115,7 +118,6 @@ const setExcluirCategoria = async function (id_categoria){
             if (validarId == false) {
                 return message.ERROR_NOT_FOUND
             } else {
-                
                 let dadosCategoria = await categoriaDAO.deletarCategoria(id_categorias)
 
                 if (dadosCategoria) {

@@ -49,11 +49,37 @@ const inserirFoto = async function (dadosFoto) {
 
 const deletarFoto = async function(id_foto){
     try {
-        let sql =
+        let sql 
+       
         sql = `delete from galeria_gestante where id_galeria_gestante = ${id_foto}`
 
         let rsFoto = await prisma.$queryRawUnsafe(sql)
         return rsFoto
+    } catch (error) {
+   
+        return false
+    }
+}
+
+const editarFoto = async function(dadosFoto, id_galeria_gestante) {
+    try {
+        let sql 
+
+        sql = `update galeria_gestante set
+        foto_galeria = '${dadosFoto.foto_galeria}',
+        titulo_galeria = '${dadosFoto.titulo_galeria}',
+        descricao_galeria = '${dadosFoto.descricao_galeria}',
+        data_foto = '${dadosFoto.data_foto}',
+        id_gestante_usuario_galeria = '${dadosFoto.id_gestante_usuario_galeria}'
+        where id_galeria_gestante = ${id_galeria_gestante}`
+
+        let result = await prisma.$executeRawUnsafe(sql)
+
+        if (result) {
+            return true
+        } else {
+            return false
+        }
     } catch (error) {
         return false
     }
@@ -61,11 +87,12 @@ const deletarFoto = async function(id_foto){
 
 const returnId = async function(){
     try{
-        let sql = 'select CAST(last_insert_id() AS DECIMAL as id from galeria_gestante limit 1)'
+        let sql = 'select CAST(last_insert_id() AS DECIMAL) as id from galeria_gestante limit 1'
         let rsId = await prisma.$queryRawUnsafe(sql)
-
+console.log(rsId);
         return rsId
     }catch(error) {
+        console.log(error);
         return false
     }
 }
@@ -86,5 +113,6 @@ module.exports = {
     selectByIdFoto,
     returnId,
     deletarFoto,
-    inserirFoto
+   inserirFoto,
+   editarFoto
 }
