@@ -10,8 +10,11 @@ const selectAllConteudos = async function () {
         return rsConteudo
 
     } catch (error) {
+        let a = ''
+        a = toString(error)
 
-        return false
+        console.log(error);
+        return a
     }
 }
 

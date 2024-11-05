@@ -1,44 +1,44 @@
 const message = require('../Modulo/config')
 const conteudoDAO = require('../Model/DAO/conteudoGestante')
 
-const getListarConteudos = async function(){
-let conteudoJSON= {}
+const getListarConteudos = async function () {
+    let conteudoJSON = {}
 
-let conteudosDados = await conteudoDAO.selectAllConteudos()
+    let conteudosDados = await conteudoDAO.selectAllConteudos()
 
-if (conteudosDados) {
+    if (conteudosDados) {
 
-    if (conteudosDados.length) {
-       conteudoJSON.conteudosDados = conteudosDados
-        conteudoJSON.quantidade = conteudosDados.length
-        conteudoJSON.status_code = 200
-        return conteudoJSON
+        if (conteudosDados.length) {
+            conteudoJSON.conteudosDados = conteudosDados
+            conteudoJSON.quantidade = conteudosDados.length
+            conteudoJSON.status_code = 200
+            return conteudoJSON
+        } else {
+            return message.ERROR_NOT_FOUND
+        }
+
     } else {
-        return message.ERROR_NOT_FOUND
+        conteudoJSON.error = conteudosDados
+        return message.ERROR_INTERNAL_SERVER_DB
     }
-    
-} else {
-    return message.ERROR_INTERNAL_SERVER_DB
-}
 }
 
-const setInserirConteudo = async function(dadosConteudo, contentType){
+const setInserirConteudo = async function (dadosConteudo, contentType) {
     try {
-        
+
         if (String(contentType).toLowerCase() == 'application/json') {
-            
+
             let resultDadosConteudo = {}
 
             if (dadosConteudo.foto_capa == "" || dadosConteudo.foto_capa == undefined || dadosConteudo.foto_capa.length > 300 ||
                 dadosConteudo.titulo_conteudo == "" || dadosConteudo.titulo_conteudo == undefined || dadosConteudo.titulo_conteudo.length > 50 ||
                 dadosConteudo.data_conteudo == "" || dadosConteudo.data_conteudo == undefined || dadosConteudo.data_conteudo.length > 10 ||
-                dadosConteudo.conteudo == "" || dadosConteudo.conteudo == undefined ) 
-                { 
-                
-                    return message.ERROR_REQUIRED_FIELDS
+                dadosConteudo.conteudo == "" || dadosConteudo.conteudo == undefined) {
+
+                return message.ERROR_REQUIRED_FIELDS
 
             } else {
-                
+
                 let novoConteudo = await conteudoDAO.inserirConteudo(dadosConteudo)
 
                 if (novoConteudo) {
@@ -53,49 +53,48 @@ const setInserirConteudo = async function(dadosConteudo, contentType){
                     return resultDadosConteudo
 
                 } else {
-                    
+
                     return message.ERROR_INTERNAL_SERVER_DB
                 }
             }
-            
+
         } else {
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
-        
+
         return message.ERROR_INTERNAL_SERVER
     }
 }
 
-const setEditarConteudo = async function (id_conteudos,dadosConteudo,contentType) {
-    
+const setEditarConteudo = async function (id_conteudos, dadosConteudo, contentType) {
+
     try {
-        
+
         if (String(contentType).toLowerCase() == 'application/json') {
-            
+
             let resultDadosConteudo = {}
             let id_conteudo = id_conteudos
 
             if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
                 return message.ERROR_INVALID_ID
             } else {
-                
+
                 let validarId = await conteudoDAO.selectByIdConteudo(id_conteudo)
 
                 if (validarId == false) {
-                    
+
                     return message.ERROR_NOT_FOUND
                 } else {
-                    
+
                     if (dadosConteudo.foto_capa == "" || dadosConteudo.foto_capa == undefined || dadosConteudo.foto_capa.length > 300 ||
                         dadosConteudo.titulo_conteudo == "" || dadosConteudo.titulo_conteudo == undefined || dadosConteudo.titulo_conteudo.length > 50 ||
                         dadosConteudo.data_conteudo == "" || dadosConteudo.data_conteudo == undefined || dadosConteudo.data_conteudo.length > 10 ||
-                        dadosConteudo.conteudo == "" || dadosConteudo.conteudo == undefined)
-                         {
+                        dadosConteudo.conteudo == "" || dadosConteudo.conteudo == undefined) {
                         return message.ERROR_REQUIRED_FIELDS
                     } else {
-                        
-                        let novoConteudo = await conteudoDAO.editarConteudo(dadosConteudo,id_conteudo)
+
+                        let novoConteudo = await conteudoDAO.editarConteudo(dadosConteudo, id_conteudo)
 
                         if (novoConteudo) {
                             resultDadosConteudo.status = message.SUCESS_EDITED_ITEM.status
@@ -119,12 +118,12 @@ const setEditarConteudo = async function (id_conteudos,dadosConteudo,contentType
 }
 
 const setExcluirConteudo = async function (id_conteudos) {
-    
+
     try {
         let id_conteudo = id_conteudos
 
         if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
-            
+
             return message.ERROR_INVALID_ID
         } else {
             let validarId = await conteudoDAO.selectByIdConteudo(id_conteudo)
@@ -132,7 +131,7 @@ const setExcluirConteudo = async function (id_conteudos) {
             if (validarId == false) {
                 return message.ERROR_NOT_FOUND
             } else {
-                
+
                 let dadosConteudo = await conteudoDAO.deletarConteudo(id_conteudo)
 
                 if (dadosConteudo) {
@@ -140,7 +139,7 @@ const setExcluirConteudo = async function (id_conteudos) {
                 } else {
                     return message.ERROR_INTERNAL_SERVER_DB
                 }
-                        }
+            }
         }
     } catch (error) {
         return message.ERROR_INTERNAL_SERVER
@@ -148,38 +147,38 @@ const setExcluirConteudo = async function (id_conteudos) {
 }
 
 const getBuscarConteudoId = async function (id) {
-    try{
+    try {
         let id_conteudo = id
         let conteudoJSON = {}
-    
+
         if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
             return message.ERROR_INVALID_ID
         } else {
-            let dadosConteudo= await conteudoDAO.selectByIdConteudo(id_conteudo)
-    
+            let dadosConteudo = await conteudoDAO.selectByIdConteudo(id_conteudo)
+
             if (dadosConteudo) {
                 if (dadosConteudo.length) {
-                   conteudoJSON.conteudo = dadosConteudo
+                    conteudoJSON.conteudo = dadosConteudo
                     conteudoJSON.status_code = 200
-    
-                    return conteudoJSON 
-    
+
+                    return conteudoJSON
+
                 } else {
-                    return message.ERROR_NOT_FOUND 
+                    return message.ERROR_NOT_FOUND
                 }
-    
+
             } else {
-                return message.ERROR_INTERNAL_SERVER_DB 
+                return message.ERROR_INTERNAL_SERVER_DB
             }
         }
-    }catch(error){
+    } catch (error) {
         return message.ERROR_INTERNAL_SERVER
     }
 
 
 }
 
-module.exports={
+module.exports = {
     getListarConteudos,
     setInserirConteudo,
     setEditarConteudo,
