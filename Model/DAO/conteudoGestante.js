@@ -10,11 +10,7 @@ const selectAllConteudos = async function () {
         return rsConteudo
 
     } catch (error) {
-        let a = ''
-        a = toString(error)
-
-        console.log(error);
-        return a
+       return false
     }
 }
 
@@ -130,6 +126,3 @@ module.exports={
     selectByIdConteudo
 }
 
-/*select foto_capa,id_usuario_gestante from conteudos_gestante
- inner join usuario_gestante on conteudos_gestante.id_gestante_conteudo_usuario
-  = usuario_gestante.id_usuario_gestante order by id_conteudos desc*/

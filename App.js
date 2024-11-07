@@ -28,6 +28,7 @@ const controllerCategoria = require('./Controller/categoria_controller')
 const controllerGaleria = require('./Controller/galeriaGestante_controller')
 const controllerHome = require('./Controller/homeGestante_controller')
 const controllerCategoriaConteudo = require('./Controller/interCategoriaConteudo_controller')
+const controllerEnxoval = require('./Controller/enxoval_controller')
 const { request } = require('http')
 
 
@@ -361,6 +362,50 @@ app.get('/v1/Lotus/categoriaConteudo/:id', cors(), async function(request, respo
 })
 /***************************************************************************************/
 
+
+/**************************************** Enxoval *****************************************/
+
+app.get('/v1/Lotus/enxoval', cors(), async function(request, response, next){
+
+    let dadosEnxoval = await controllerEnxoval.getListarEnxoval()
+
+    response.status(dadosEnxoval.status_code)
+    response.json(dadosEnxoval)
+
+})    
+
+app.post('/v1/Lotus/enxoval', cors(), bodyParserJSON, async function (request, response, next){
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let resultDados = await controllerEnxoval.setInserirEnxoval(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.put('/v1/Lotus/enxoval/:id', cors(), bodyParserJSON, async function(request, response, next){
+    let contentType = request.headers['content-type']
+
+    const id_enxoval = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerEnxoval.setEditarEnxoval(id_enxoval, dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.delete('/v1/Lotus/enxoval/:id', cors(), async function(request, response, next){
+
+    let id_enxoval = request.params.id
+
+    let deleteEnxoval = await controllerEnxoval.setExcluirEnxoval(id_enxoval)
+
+    response.status(deleteEnxoval.status_code)
+    response.json(deleteEnxoval)
+
+})
+/***************************************************************************************/
 app.listen(8080, function(){
     console.log('API funcionando e aguardando requisições')
 })
