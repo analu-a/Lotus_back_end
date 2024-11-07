@@ -327,6 +327,16 @@ app.get('/v1/Lotus/home', cors(), async function(request, response, next){
     response.json(dadosHome)
 
 })    
+
+
+app.get('/v1/Lotus/home/flores/:id', cors(), async function(request, response, next){
+    let id_home= request.params.id
+
+    let dadosHome= await controllerHome.getBuscarFlorHomeId(id_home)
+
+    response.status(dadosHome.status_code)
+    response.json(dadosHome)
+})
 /***************************************************************************************/
 app.listen(8080, function(){
     console.log('API funcionando e aguardando requisições')

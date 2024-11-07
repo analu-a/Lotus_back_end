@@ -58,6 +58,38 @@ setInserirHome = async function (dadosHome, contentType) {
     }
 }
 
+const getBuscarFlorHomeId = async function (id) {
+    try {
+        let id_home = id
+        let homeJSON = {}
+
+        if (id_home == '' || id_home == undefined || isNaN(id_home)) {
+            return message.ERROR_INVALID_ID
+        } else {
+            let dadosHome = await homeDAO.selectFlorIdHome(id_home)
+
+            if (dadosHome) {
+                if (dadosHome.length) {
+                    homeJSON.home = dadosHome
+                    homeJSON.status_code = 200
+
+                    return homeJSON
+
+                } else {
+                    return message.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return message.ERROR_INTERNAL_SERVER_DB
+            }
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER
+    }
+
+
+}
 module.exports = {
-    getListarHome
+    getListarHome,
+    getBuscarFlorHomeId
 }

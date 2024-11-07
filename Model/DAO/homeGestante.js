@@ -106,10 +106,23 @@ const selectByIdHome= async function (id) {
 
 }
 
+const selectFlorIdHome = async function (id) {
+    try {
+        let sql = `select flores_home from home_gestante where id_home = ${id}`
+
+        let rsHome = await prisma.$queryRawUnsafe(sql)
+        return rsHome
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports={
     selectAllHome,
     inserirHome,
     editarHome,
     deletarHome,
-    returnId
+    returnId,
+    selectByIdHome,
+    selectFlorIdHome
 }
