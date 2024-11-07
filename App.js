@@ -27,6 +27,7 @@ const controllerDoula = require('./Controller/cadastroDoula_controller')
 const controllerCategoria = require('./Controller/categoria_controller')
 const controllerGaleria = require('./Controller/galeriaGestante_controller')
 const controllerHome = require('./Controller/homeGestante_controller')
+const controllerCategoriaConteudo = require('./Controller/interCategoriaConteudo_controller')
 const { request } = require('http')
 
 
@@ -338,6 +339,28 @@ app.get('/v1/Lotus/home/flores/:id', cors(), async function(request, response, n
     response.json(dadosHome)
 })
 /***************************************************************************************/
+
+/**************************************** Categoria/Conteudo *****************************************/
+app.get('/v1/Lotus/categoriaConteudo', cors(), async function(request, response, next){
+
+    let categoriaConteudoDados = await controllerCategoriaConteudo.getListarCategoriaConteudo()
+
+    response.status(categoriaConteudoDados.status_code)
+    response.json(categoriaConteudoDados)
+
+})  
+
+
+app.get('/v1/Lotus/categoriaConteudo/:id', cors(), async function(request, response, next){
+    let id_conteudo = request.params.id
+
+    let categoriaConteudoDados= await controllerCategoriaConteudo.getBuscarcategoriaConteudoId(id_conteudo)
+
+    response.status(categoriaConteudoDados.status_code)
+    response.json(categoriaConteudoDados)
+})
+/***************************************************************************************/
+
 app.listen(8080, function(){
     console.log('API funcionando e aguardando requisições')
 })
