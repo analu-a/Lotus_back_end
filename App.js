@@ -26,6 +26,7 @@ const controllerConteudo = require('./Controller/conteudoGestante_controller')
 const controllerDoula = require('./Controller/cadastroDoula_controller')
 const controllerCategoria = require('./Controller/categoria_controller')
 const controllerGaleria = require('./Controller/galeriaGestante_controller')
+const controllerHome = require('./Controller/homeGestante_controller')
 const { request } = require('http')
 
 
@@ -317,7 +318,16 @@ app.get('/v1/Lotus/categoria/:id', cors(), async function(request, response, nex
     response.json(dadosCategoria)
 })
 /***************************************************************************************/
+/**************************************** Home *****************************************/
+app.get('/v1/Lotus/home', cors(), async function(request, response, next){
 
+    let dadosHome = await controllerHome.getListarHome()
+
+    response.status(dadosHome.status_code)
+    response.json(dadosHome)
+
+})    
+/***************************************************************************************/
 app.listen(8080, function(){
     console.log('API funcionando e aguardando requisições')
 })

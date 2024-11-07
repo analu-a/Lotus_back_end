@@ -54,6 +54,10 @@ setInserirHome = async function (dadosHome, contentType) {
             return message.ERROR_CONTENT_TYPE
         }
     } catch (error) {
-        return message
+        return message.ERROR_INTERNAL_SERVER
     }
+}
+
+module.exports = {
+    getListarHome
 }
