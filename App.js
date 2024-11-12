@@ -29,6 +29,7 @@ const controllerGaleria = require('./Controller/galeriaGestante_controller')
 const controllerHome = require('./Controller/homeGestante_controller')
 const controllerCategoriaConteudo = require('./Controller/interCategoriaConteudo_controller')
 const controllerEnxoval = require('./Controller/enxoval_controller')
+const controllerMonitoramento = require('./Controller/monitoramento_controller')
 const { request } = require('http')
 
 
@@ -405,6 +406,64 @@ app.delete('/v1/Lotus/enxoval/:id', cors(), async function(request, response, ne
     response.json(deleteEnxoval)
 
 })
+
+/************************************* Monitoramento gestante *******************************/
+
+app.get('/v1/Lotus/monitoramento/gestante', cors(), async function(request, response,next){
+
+    let dadosMonitoramento = await controllerMonitoramento.getListarMonitoramento()
+
+        response.status(dadosMonitoramento.status_code)
+        response.json(dadosMonitoramento)
+        
+   
+})
+
+app.post('/v1/Lotus/monitoramento/gestante', cors(), bodyParserJSON, async function(request, response, next){
+
+    let contentType = request.headers['content-type']
+
+    let dadosBody = request.body
+   
+
+    let resultDados = await controllerMonitoramento.setInserirMonitoramento(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.put('/v1/Lotus/monitoramento/gestante/:id', cors(), bodyParserJSON, async function(request, response,next){
+    let contentType = request.headers['content-type']
+
+    const id_monitoramento = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerMonitoramento.setEditarMonitoramento(id_monitoramento,dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.delete('/v1/Lotus/monitoramento/gestante/:id', cors(), async function(request, response, next){
+
+    let id_monitoramento = request.params.id
+
+    let deleteMonitoramento= await controllerMonitoramento.setExcluirMonitoramento(id_monitoramento)
+
+    response.status(deleteMonitoramento.status_code)
+    response.json(deleteMonitoramento)
+
+})
+
+app.get('/v1/Lotus/monitoramento/gestante/:id', cors(), async function(request, response, next){
+    let id_monitoramento = request.params.id
+
+    let dadosMonitoramento= await controllerMonitoramento.getBuscarMonitoramentoId(id_monitoramento)
+
+    response.status(dadosMonitoramento.status_code)
+    response.json(dadosMonitoramento)
+})
+/***************************************************************************************/
+
 /***************************************************************************************/
 app.listen(8080, function(){
     console.log('API funcionando e aguardando requisições')
