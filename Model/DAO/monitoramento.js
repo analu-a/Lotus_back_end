@@ -50,7 +50,7 @@ const editarMonitoramento = async function (dadosMonitoramento, id_monitoramento
 
         let sql
 
-        sql = `update conteudos_gestante set 
+        sql = `update monitoramento_gestante set 
         titulo_monitoramento = '${dadosMonitoramento.titulo_monitoramento}',
         icone_monitoramento = '${dadosMonitoramento.icone_monitoramento}',
          id_monitoramento_categoria = '${dadosMonitoramento. id_monitoramento_categoria}'

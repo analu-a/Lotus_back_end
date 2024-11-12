@@ -249,11 +249,44 @@ const setExcluirCadastro = async function(id){
     }
 }
 
+const getBuscarGestanteId = async function (id) {
+    try {
+        let id_gestante = id
+        let gestanteJSON = {}
+
+        if (id_gestante == '' || id_gestante == undefined || isNaN(id_gestante)) {
+            return message.ERROR_INVALID_ID
+        } else {
+            let dadosGestante= await cadastroDAO.selectByIdCadastro(id_gestante)
+
+            if (dadosGestante) {
+                if (dadosGestante.length) {
+                    gestanteJSON.gestante = dadosGestante
+                    gestanteJSON.status_code = 200
+
+                    return gestanteJSON
+
+                } else {
+                    return message.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return message.ERROR_INTERNAL_SERVER_DB
+            }
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER
+    }
+
+
+}
+
 module.exports={
     getListarCadastro,
     setInserirNovoCadastro,
     setEditarCadastro,
     setExcluirCadastro,
-    getValidarLogin
+    getValidarLogin,
+    getBuscarGestanteId
 }
 

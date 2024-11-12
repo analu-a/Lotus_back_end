@@ -92,6 +92,15 @@ app.post('/v1/Lotus/cadastro/gestante/login', cors(), bodyParserJSON, async func
     response.status(dadosUsuario.status_code)
     response.json(dadosUsuario)
 })
+
+app.get('/v1/Lotus/cadastro/gestante/:id', cors(), async function(request, response, next){
+    let id_gestante = request.params.id
+
+    let dadosGestante= await controllerCadastro.getBuscarGestanteId(id_gestante)
+
+    response.status(dadosGestante.status_code)
+    response.json(dadosGestante)
+})
 /***************************************************************************************/
 
 /************************************* Conteudo gestante *******************************/
@@ -110,8 +119,7 @@ app.post('/v1/Lotus/conteudo/gestante', cors(), bodyParserJSON, async function(r
 
     let contentType = request.headers['content-type']
 
-    let dadosBody = request.body
-   
+    let dadosBody = request.body 
 
     let resultDados = await controllerConteudo.setInserirConteudo(dadosBody, contentType)
 
