@@ -30,27 +30,24 @@ const setInserirCategoriaMonitoramento = async function (dadosCategoriaMonitoram
 
             let resultDadosCategoriaMonitoramento = {}
 
-            if (dadosCategoriaMonitoramento.foto_capa == "" || dadosCategoriaMonitoramento.foto_capa == undefined || dadosCategoriaMonitoramento.foto_capa.length > 300 ||
-                dadosCategoriaMonitoramento.titulo_conteudo == "" || dadosCategoriaMonitoramento.titulo_conteudo == undefined || dadosCategoriaMonitoramento.titulo_conteudo.length > 50 ||
-                dadosCategoriaMonitoramento.data_conteudo == "" || dadosCategoriaMonitoramento.data_conteudo == undefined || dadosCategoriaMonitoramento.data_conteudo.length > 10 ||
-                dadosCategoriaMonitoramento.conteudo == "" || dadosCategoriaMonitoramento.conteudo == undefined) {
+            if (dadosCategoriaMonitoramento.titulo_monitoramento == "" || dadosCategoriaMonitoramento.titulo_monitoramento == undefined || dadosCategoriaMonitoramento.titulo_monitoramento.length > 50 ) {
 
                 return message.ERROR_REQUIRED_FIELDS
 
             } else {
 
-                let novoConteudo = await conteudoDAO.inserirConteudo(dadosCategoriaMonitoramento)
+                let novaCategoriaMoni = await categoriaMoniDAO.inserirCategoriaMonitoramento(dadosCategoriaMonitoramento)
 
-                if (novoConteudo) {
-                    let returnId = await conteudoDAO.returnId()
+                if (novaCategoriaMoni) {
+                    let returnId = await categoriaMoniDAO.returnId()
 
-                    resultdadosCategoriaMonitoramento.status = message.SUCESS_CREATED_ITEM.status
-                    resultdadosCategoriaMonitoramento.status_code = message.SUCESS_CREATED_ITEM.status_code
-                    resultdadosCategoriaMonitoramento.message = message.SUCESS_CREATED_ITEM.message
-                    resultdadosCategoriaMonitoramento.conteudo = dadosCategoriaMonitoramento
+                    resultDadosCategoriaMonitoramento.status = message.SUCESS_CREATED_ITEM.status
+                    resultDadosCategoriaMonitoramento.status_code = message.SUCESS_CREATED_ITEM.status_code
+                    resultDadosCategoriaMonitoramento.message = message.SUCESS_CREATED_ITEM.message
+                    resultDadosCategoriaMonitoramento.categoriaMonitoramento = dadosCategoriaMonitoramento
 
-                    resultdadosCategoriaMonitoramento.conteudo.id = returnId[0].id
-                    return resultdadosCategoriaMonitoramento
+                    resultDadosCategoriaMonitoramento.categoriaMonitoramento.id = returnId[0].id
+                    return resultDadosCategoriaMonitoramento
 
                 } else {
 
@@ -67,40 +64,37 @@ const setInserirCategoriaMonitoramento = async function (dadosCategoriaMonitoram
     }
 }
 
-const setEditarConteudo = async function (id_conteudos, dadosCategoriaMonitoramento, contentType) {
+const setEditarCategoriaMonitoramento = async function (id_categoria_monitoramentos, dadosCategoriaMonitoramento, contentType) {
 
     try {
 
         if (String(contentType).toLowerCase() == 'application/json') {
 
             let resultdadosCategoriaMonitoramento = {}
-            let id_conteudo = id_conteudos
+            let id_categoria_monitoramento = id_categoria_monitoramentos
 
-            if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
+            if (id_categoria_monitoramento == '' || id_categoria_monitoramento == undefined || isNaN(id_categoria_monitoramento)) {
                 return message.ERROR_INVALID_ID
             } else {
 
-                let validarId = await conteudoDAO.selectByIdConteudo(id_conteudo)
+                let validarId = await categoriaMoniDAO.selectByIdCategoriaMonitoramento(id_categoria_monitoramento)
 
                 if (validarId == false) {
 
                     return message.ERROR_NOT_FOUND
                 } else {
 
-                    if (dadosCategoriaMonitoramento.foto_capa == "" || dadosCategoriaMonitoramento.foto_capa == undefined || dadosCategoriaMonitoramento.foto_capa.length > 300 ||
-                        dadosCategoriaMonitoramento.titulo_conteudo == "" || dadosCategoriaMonitoramento.titulo_conteudo == undefined || dadosCategoriaMonitoramento.titulo_conteudo.length > 50 ||
-                        dadosCategoriaMonitoramento.data_conteudo == "" || dadosCategoriaMonitoramento.data_conteudo == undefined || dadosCategoriaMonitoramento.data_conteudo.length > 10 ||
-                        dadosCategoriaMonitoramento.conteudo == "" || dadosCategoriaMonitoramento.conteudo == undefined) {
+                    if (dadosCategoriaMonitoramento.titulo_monitoramento == "" || dadosCategoriaMonitoramento.titulo_monitoramento == undefined || dadosCategoriaMonitoramento.titulo_monitoramento.length > 50) {
                         return message.ERROR_REQUIRED_FIELDS
                     } else {
 
-                        let novoConteudo = await conteudoDAO.editarConteudo(dadosCategoriaMonitoramento, id_conteudo)
+                        let novaCategoriaMoni = await categoriaMoniDAO.editarCategoriaMonitoramento(dadosCategoriaMonitoramento, id_categoria_monitoramento)
 
-                        if (novoConteudo) {
+                        if (novaCategoriaMoni) {
                             resultdadosCategoriaMonitoramento.status = message.SUCESS_EDITED_ITEM.status
                             resultdadosCategoriaMonitoramento.status_code = message.SUCESS_EDITED_ITEM.status_code
                             resultdadosCategoriaMonitoramento.message = message.SUCESS_EDITED_ITEM.message
-                            resultdadosCategoriaMonitoramento.conteudo = dadosCategoriaMonitoramento
+                            resultdadosCategoriaMonitoramento.categoriaMonitoramento = dadosCategoriaMonitoramento
 
                             return resultdadosCategoriaMonitoramento
                         } else {
@@ -117,22 +111,22 @@ const setEditarConteudo = async function (id_conteudos, dadosCategoriaMonitorame
     }
 }
 
-const setExcluirConteudo = async function (id_conteudos) {
+const setExcluirCategoriaMonitoramento = async function (id_categoria_monitoramentos) {
 
     try {
-        let id_conteudo = id_conteudos
+        let id_categoria_monitoramento = id_categoria_monitoramentos
 
-        if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
+        if (id_categoria_monitoramento == '' || id_categoria_monitoramento == undefined || isNaN(id_categoria_monitoramento)) {
 
             return message.ERROR_INVALID_ID
         } else {
-            let validarId = await conteudoDAO.selectByIdConteudo(id_conteudo)
+            let validarId = await categoriaMoniDAO.selectByIdCategoriaMonitoramento(id_categoria_monitoramento)
 
             if (validarId == false) {
                 return message.ERROR_NOT_FOUND
             } else {
 
-                let dadosCategoriaMonitoramento = await conteudoDAO.deletarConteudo(id_conteudo)
+                let dadosCategoriaMonitoramento = await categoriaMoniDAO.deletarCategoriaMonitoramento(id_categoria_monitoramento)
 
                 if (dadosCategoriaMonitoramento) {
                     return message.SUCESS_DELETED_ITEM
@@ -146,19 +140,19 @@ const setExcluirConteudo = async function (id_conteudos) {
     }
 }
 
-const getBuscarConteudoId = async function (id) {
+const getBuscarCategoriaMoniId = async function (id) {
     try {
-        let id_conteudo = id
+        let id_categoria_monitoramento = id
         let categoriaMoniJSON = {}
 
-        if (id_conteudo == '' || id_conteudo == undefined || isNaN(id_conteudo)) {
+        if (id_categoria_monitoramento == '' || id_categoria_monitoramento == undefined || isNaN(id_categoria_monitoramento)) {
             return message.ERROR_INVALID_ID
         } else {
-            let dadosCategoriaMonitoramento = await conteudoDAO.selectByIdConteudo(id_conteudo)
+            let dadosCategoriaMonitoramento = await categoriaMoniDAO.selectByIdCategoriaMonitoramento(id_categoria_monitoramento)
 
             if (dadosCategoriaMonitoramento) {
                 if (dadosCategoriaMonitoramento.length) {
-                    categoriaMoniJSON.conteudo = dadosCategoriaMonitoramento
+                    categoriaMoniJSON.categoriaMonitoramento = dadosCategoriaMonitoramento
                     categoriaMoniJSON.status_code = 200
 
                     return categoriaMoniJSON
@@ -179,9 +173,9 @@ const getBuscarConteudoId = async function (id) {
 }
 
 module.exports = {
-    getListarConteudos,
-    setInserirConteudo,
-    setEditarConteudo,
-    setExcluirConteudo,
-    getBuscarConteudoId
+    getListarCategoriaMonitoramento,
+    setInserirCategoriaMonitoramento,
+    setEditarCategoriaMonitoramento,
+    setExcluirCategoriaMonitoramento,
+    getBuscarCategoriaMoniId
 }
