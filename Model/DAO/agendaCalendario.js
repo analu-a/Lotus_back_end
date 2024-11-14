@@ -23,12 +23,12 @@ const inserirAgenda = async function(dadosAgenda) {
         descricao_calendario,
         data_calendario,
         horario_calendario,
-        usuario_calendario_id,
-        id_monitoramento_categoria   
+        usuario_calendario_id 
         ) values (
         '${dadosAgenda.descricao_calendario}',
         '${dadosAgenda.data_calendario}',
-        '${dadosAgenda. id_monitoramento_categoria}'
+        '${dadosAgenda.horario_calendario}',
+        '${dadosAgenda.usuario_calendario_id}'
         )`
 
         let result = await prisma.$executeRawUnsafe(sql)
@@ -46,17 +46,18 @@ const inserirAgenda = async function(dadosAgenda) {
 
 
 
-const editarMonitoramento = async function (dadosAgenda, id_monitoramento) {
+const editarAgenda = async function (dadosAgenda, id_agenda_calendario) {
     
     try {
 
         let sql
 
-        sql = `update monitoramento_gestante set 
+        sql = `update agenda_calendario set 
         descricao_calendario = '${dadosAgenda.descricao_calendario}',
         data_calendario = '${dadosAgenda.data_calendario}',
-         id_monitoramento_categoria = '${dadosAgenda. id_monitoramento_categoria}'
-        where id_monitoramento = ${id_monitoramento}`
+        horario_calendario = '${dadosAgenda.horario_calendario}',
+        usuario_calendario_id = '${dadosAgenda. id_agenda_calendario}'
+        where id_agenda_calendario = ${id_agenda_calendario}`
 
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -70,12 +71,12 @@ const editarMonitoramento = async function (dadosAgenda, id_monitoramento) {
     }
 }
 
-const deletarMonitoramento = async function (id_monitoramento) {
+const deletarAgenda = async function (id_agenda_calendario) {
     
     try {
         
         let sql
-        sql = `delete from monitoramento_gestante where id_monitoramento = ${id_monitoramento}`
+        sql = `delete from agenda_calendario where id_agenda_calendario = ${id_agenda_calendario}`
 
         let rsAgenda = await prisma.$executeRawUnsafe(sql)
         return rsAgenda
@@ -90,7 +91,7 @@ const returnId = async function () {
 
     try {
 
-        let sql = 'select CAST(last_insert_id() AS DECIMAL) as id from monitoramento_gestante limit 1'
+        let sql = 'select CAST(last_insert_id() AS DECIMAL) as id from agenda_calendario limit 1'
         let rsId = await prisma.$queryRawUnsafe(sql)
 
         return rsId
@@ -102,9 +103,9 @@ const returnId = async function () {
 
 }
 
-const selectByIdMonitoramento = async function (id) {
+const selectByIdAgenda = async function (id) {
     try {
-        let sql = `select * from monitoramento_gestante where id_monitoramento = ${id}`
+        let sql = `select * from agenda_calendario where id_agenda_calendario = ${id}`
 
         let rsAgenda = await prisma.$queryRawUnsafe(sql)
         return rsAgenda
@@ -116,3 +117,11 @@ const selectByIdMonitoramento = async function (id) {
 
 }
 
+module.exports = {
+    selectAllAgenda,
+    selectByIdAgenda,
+    inserirAgenda,
+    editarAgenda,
+    deletarAgenda,
+    returnId
+}

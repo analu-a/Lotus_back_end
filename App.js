@@ -31,6 +31,7 @@ const controllerCategoriaConteudo = require('./Controller/interCategoriaConteudo
 const controllerEnxoval = require('./Controller/enxoval_controller')
 const controllerMonitoramento = require('./Controller/monitoramento_controller')
 const controllerCategoriaMonitoramento = require('./Controller/categoriaMonitoramento_controller')
+const controllerAgenda = require('./Controller/agendaCalendario_controller')
 const { request } = require('http')
 
 
@@ -415,7 +416,7 @@ app.delete('/v1/Lotus/enxoval/:id', cors(), async function(request, response, ne
     response.json(deleteEnxoval)
 
 })
-
+/***************************************************************************************/
 /************************************* Monitoramento gestante *******************************/
 
 app.get('/v1/Lotus/monitoramento/gestante', cors(), async function(request, response,next){
@@ -547,6 +548,49 @@ app.get('/v1/Lotus/categoria/monitoramento/gestante/:id', cors(), async function
 
     response.status(dadosCategoriaMoni.status_code)
     response.json(dadosCategoriaMoni)
+})
+/***************************************************************************************/
+/**************************************** Enxoval *****************************************/
+
+app.get('/v1/Lotus/agenda', cors(), async function(request, response, next){
+
+    let dadosAgenda = await controllerAgenda.getListarAgenda()
+
+    response.status(dadosAgenda.status_code)
+    response.json(dadosAgenda)
+
+})    
+
+app.post('/v1/Lotus/agenda', cors(), bodyParserJSON, async function (request, response, next){
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+
+    let resultDados = await controllerEnxoval.setInserirEnxoval(dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.put('/v1/Lotus/enxoval/:id', cors(), bodyParserJSON, async function(request, response, next){
+    let contentType = request.headers['content-type']
+
+    const id_enxoval = request.params.id
+    let dadosBody = request.body
+    let resultDados = await controllerEnxoval.setEditarEnxoval(id_enxoval, dadosBody, contentType)
+
+    response.status(resultDados.status_code)
+    response.json(resultDados)
+})
+
+app.delete('/v1/Lotus/enxoval/:id', cors(), async function(request, response, next){
+
+    let id_enxoval = request.params.id
+
+    let deleteEnxoval = await controllerEnxoval.setExcluirEnxoval(id_enxoval)
+
+    response.status(deleteEnxoval.status_code)
+    response.json(deleteEnxoval)
+
 })
 /***************************************************************************************/
 /***************************************************************************************/
