@@ -64,7 +64,7 @@ app.post('/v1/Lotus/cadastro/Gestante', cors(), bodyParserJSON, async function(r
 app.put('/v1/Lotus/cadastro/gestante/:id', cors(), bodyParserJSON, async function(request, response,next){
     let contentType = request.headers['content-type']
 
-    const id_gestante = request.params.id
+    const id_categoria_moni = request.params.id
     let dadosBody = request.body
     let resultDados = await controllerCadastro.setEditarCadastro(id_gestante,dadosBody, contentType)
 
@@ -441,6 +441,16 @@ app.post('/v1/Lotus/monitoramento/gestante', cors(), bodyParserJSON, async funct
     response.json(resultDados)
 })
 
+app.get('/v1/Lotus/monitoramento/gestante/categoria', cors(), async function(request, response,next){
+
+    let dadosMonitoramentoECategoria = await controllerMonitoramento.getListarMonitoramentoECategoria()
+
+        response.status(dadosMonitoramentoECategoria.status_code)
+        response.json(dadosMonitoramentoECategoria)
+        
+   
+})
+
 app.put('/v1/Lotus/monitoramento/gestante/:id', cors(), bodyParserJSON, async function(request, response,next){
     let contentType = request.headers['content-type']
 
@@ -471,9 +481,20 @@ app.get('/v1/Lotus/monitoramento/gestante/:id', cors(), async function(request, 
     response.status(dadosMonitoramento.status_code)
     response.json(dadosMonitoramento)
 })
+
+app.get('/v1/Lotus/monitoramento/gestante/categoria/:id', cors(), async function(request, response, next){
+    let id_monitoramento = request.params.id
+
+    let dadosMonitoramento= await controllerMonitoramento.getBuscarMonitoramentoECategoriaId(id_monitoramento)
+
+    response.status(dadosMonitoramento.status_code)
+    response.json(dadosMonitoramento)
+})
+
+
 /***************************************************************************************/
 
-/************************************* Conteudo gestante *******************************/
+/************************************* Categoria do monitoramento *******************************/
 
 app.get('/v1/Lotus/categoria/monitoramento/gestante', cors(), async function(request, response,next){
 
@@ -502,27 +523,27 @@ app.put('/v1/Lotus/categoria/monitoramento/gestante/:id', cors(), bodyParserJSON
 
     const id_categoria_monitoramento = request.params.id
     let dadosBody = request.body
-    let resultDados = await controllerCategoriaMonitoramento.s(id_categoria_monitoramento,dadosBody, contentType)
+    let resultDados = await controllerCategoriaMonitoramento.setEditarCategoriaMonitoramento(id_categoria_monitoramento,dadosBody, contentType)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
 })
 
-app.delete('/v1/Lotus/conteudo/gestante/:id', cors(), async function(request, response, next){
+app.delete('/v1/Lotus/categoria/monitoramento/gestante/:id', cors(), async function(request, response, next){
 
     let id_categoria_monitoramento = request.params.id
 
-    let deleteConteudo = await controllerConteudo.setExcluirConteudo(id_categoria_monitoramento)
+    let deleteCategoriaMoni = await controllerCategoriaMonitoramento.setExcluirCategoriaMonitoramento(id_categoria_monitoramento)
 
-    response.status(deleteConteudo.status_code)
-    response.json(deleteConteudo)
+    response.status(deleteCategoriaMoni.status_code)
+    response.json(deleteCategoriaMoni)
 
 })
 
-app.get('/v1/Lotus/conteudo/gestante/:id', cors(), async function(request, response, next){
-    let id_gestante = request.params.id
+app.get('/v1/Lotus/categoria/monitoramento/gestante/:id', cors(), async function(request, response, next){
+    let id_categoria_moni = request.params.id
 
-    let dadosCategoriaMoni= await controllerConteudo.getBuscarConteudoId(id_gestante)
+    let dadosCategoriaMoni= await controllerCategoriaMonitoramento.getBuscarCategoriaMoniId(id_categoria_moni)
 
     response.status(dadosCategoriaMoni.status_code)
     response.json(dadosCategoriaMoni)

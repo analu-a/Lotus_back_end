@@ -19,10 +19,10 @@ const inserirCategoriaMonitoramento = async function(dadosMonitoramento) {
     try {
         let sql
 
-        sql = `insert into conteudos_gestante(
-        titulo_monitoramento      
+        sql = `insert into categoria_monitoramento(
+        titulo_categoria_monitoramento      
         ) values (
-        '${dadosMonitoramento.titulo_monitoramento}'
+        '${dadosMonitoramento.titulo_categoria_monitoramento}'
         )`
 
         let result = await prisma.$executeRawUnsafe(sql)
@@ -47,7 +47,7 @@ const editarCategoriaMonitoramento = async function (dadosMonitoramento, id_cate
         let sql
 
         sql = `update categoria_monitoramento set 
-        titulo_monitoramento = '${dadosMonitoramento.titulo_monitoramento}'
+        titulo_categoria_monitoramento = '${dadosMonitoramento.titulo_categoria_monitoramento}'
         where id_categoria_monitoramento = ${id_categoria_monitoramento}`
 
         let result = await prisma.$executeRawUnsafe(sql)

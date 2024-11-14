@@ -30,7 +30,7 @@ const setInserirCategoriaMonitoramento = async function (dadosCategoriaMonitoram
 
             let resultDadosCategoriaMonitoramento = {}
 
-            if (dadosCategoriaMonitoramento.titulo_monitoramento == "" || dadosCategoriaMonitoramento.titulo_monitoramento == undefined || dadosCategoriaMonitoramento.titulo_monitoramento.length > 50 ) {
+            if (dadosCategoriaMonitoramento.titulo_categoria_monitoramento == "" || dadosCategoriaMonitoramento.titulo_categoria_monitoramento == undefined || dadosCategoriaMonitoramento.titulo_categoria_monitoramento.length > 50 ) {
 
                 return message.ERROR_REQUIRED_FIELDS
 
@@ -84,7 +84,7 @@ const setEditarCategoriaMonitoramento = async function (id_categoria_monitoramen
                     return message.ERROR_NOT_FOUND
                 } else {
 
-                    if (dadosCategoriaMonitoramento.titulo_monitoramento == "" || dadosCategoriaMonitoramento.titulo_monitoramento == undefined || dadosCategoriaMonitoramento.titulo_monitoramento.length > 50) {
+                    if (dadosCategoriaMonitoramento.titulo_categoria_monitoramento == "" || dadosCategoriaMonitoramento.titulo_categoria_monitoramento == undefined || dadosCategoriaMonitoramento.titulo_categoria_monitoramento.length > 50) {
                         return message.ERROR_REQUIRED_FIELDS
                     } else {
 

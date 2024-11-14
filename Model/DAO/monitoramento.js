@@ -14,6 +14,19 @@ const selectAllMonitoramento = async function () {
     }
 }
 
+const selectCategoriaEMonitoramento = async function () {
+
+    try {
+        let sql = 'select * from monitoramento_categoria'
+        
+        let rsMonitoramento = await prisma.$queryRawUnsafe(sql)
+        return rsMonitoramento
+
+    } catch (error) {
+        return false
+    }
+}
+
 
 const inserirMonitoramento = async function(dadosMonitoramento) {
     try {
@@ -114,11 +127,27 @@ const selectByIdMonitoramento = async function (id) {
 
 }
 
+const selectByIdMonitoramentoECtegoria = async function (id) {
+    try {
+        let sql = `select * from monitoramento_categoria where id_monitoramento = ${id}`
+
+        let rsMonitoramento = await prisma.$queryRawUnsafe(sql)
+        return rsMonitoramento
+
+    } catch (error) {
+        return false
+    }
+
+
+}
+
 module.exports = {
     selectAllMonitoramento,
     inserirMonitoramento,
     editarMonitoramento,
     deletarMonitoramento,
     returnId,
-    selectByIdMonitoramento
+    selectByIdMonitoramento,
+    selectCategoriaEMonitoramento,
+    selectByIdMonitoramentoECtegoria
 }

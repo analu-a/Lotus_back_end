@@ -23,6 +23,27 @@ const getListarMonitoramento = async function () {
     }
 }
 
+const getListarMonitoramentoECategoria = async function () {
+    let monitoramentoECategoriaJSON = {}
+
+    let monitoramentoECategoriaDados = await monitoramentoDAO.selectCategoriaEMonitoramento()
+
+    if (monitoramentoECategoriaDados) {
+        
+        if (monitoramentoECategoriaDados.length) {
+            monitoramentoECategoriaJSON.monitoramentoECategoriaDados = monitoramentoECategoriaDados
+            monitoramentoECategoriaJSON.quantidade = monitoramentoECategoriaDados.length
+            monitoramentoECategoriaJSON.status_code = 200
+
+            return monitoramentoECategoriaJSON
+        } else {
+            return message.ERROR_NOT_FOUND
+        }
+    } else {
+        return message.ERROR_INTERNAL_SERVER_DB
+    }
+}
+
 const setInserirMonitoramento = async function (monitoramentoDados, contentType) {
     try {
 
@@ -178,10 +199,44 @@ const getBuscarMonitoramentoId = async function (id) {
 
 }
 
+const getBuscarMonitoramentoECategoriaId = async function (id) {
+    try {
+        let id_monitoramento = id
+        let monitoramentoJSON = {}
+
+        if (id_monitoramento == '' || id_monitoramento == undefined || isNaN(id_monitoramento)) {
+            return message.ERROR_INVALID_ID
+        } else {
+            let dadosMonitoramento = await monitoramentoDAO.selectByIdMonitoramentoECtegoria(id_monitoramento)
+
+            if (dadosMonitoramento) {
+                if (dadosMonitoramento.length) {
+                    monitoramentoJSON.monitoramento = dadosMonitoramento
+                    monitoramentoJSON.status_code = 200
+
+                    return monitoramentoJSON
+
+                } else {
+                    return message.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return message.ERROR_INTERNAL_SERVER_DB
+            }
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER
+    }
+
+
+}
+
 module.exports = {
    getListarMonitoramento,
     setInserirMonitoramento,
     setEditarMonitoramento,
     setExcluirMonitoramento,
-    getBuscarMonitoramentoId
+    getBuscarMonitoramentoId,
+    getListarMonitoramentoECategoria,
+    getBuscarMonitoramentoECategoriaId
 }
