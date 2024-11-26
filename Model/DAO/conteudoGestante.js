@@ -5,7 +5,8 @@ const prisma = new PrismaClient()
 
 const selectAllConteudos = async function () {
     try {
-        let sql = 'select * from conteudos_gestante order by id_conteudos desc'
+       // let sql = 'select * from conteudos_gestante order by id_conteudos desc'
+              let sql = `select * DATE_FORMAT(data_conteudo, '%d/%m/%Y') AS data_formatada FROM conteudos_gestante;`
         let rsConteudo = await prisma.$queryRawUnsafe(sql)
         return rsConteudo
 
