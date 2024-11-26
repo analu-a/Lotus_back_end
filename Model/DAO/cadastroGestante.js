@@ -64,7 +64,15 @@ const inserirCadastro = async function (cadastro) {
                  '${cadastro.peso_gestante}',
                  '${cadastro.altura_gestante}',
                  '${cadastro.email_gestante}',
-                SHA1('${cadastro.senha_gestante}')
+                SHA1('${cadastro.senha_gestante}') '${cadastro.nome_gestante}',
+             '${cadastro.sobrenome_gestante}',
+             '${cadastro.idade_gestante}',
+             '${cadastro.foto_gestante}',
+             '${cadastro.cpf_gestante}',
+             '${cadastro.data_nascimento_gestante}',
+             '${cadastro.profissao_gestante}',
+             '${cadastro.nome_bebe}',
+             '${cadastro.semanas_de_gravidez}'
              )`
 
         } else {
