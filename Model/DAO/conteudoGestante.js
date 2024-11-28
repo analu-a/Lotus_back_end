@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 const selectAllConteudos = async function () {
     try {
-       let sql = 'select * from conteudos_gestante order by id_conteudos desc'
+       let sql = 'select * from getConteudosDataFormatada order by id_conteudos desc'
         let rsConteudo = await prisma.$queryRawUnsafe(sql)
         return rsConteudo
 
@@ -105,7 +105,7 @@ const returnId = async function () {
 
 const selectByIdConteudo= async function (id) {
     try {
-        let sql = `select * from conteudos_gestante where id_conteudos = ${id}`
+        let sql = `select * from getConteudosDataFormatada where id_conteudos = ${id}`
 
         let rsConteudo = await prisma.$queryRawUnsafe(sql)
         return rsConteudo
