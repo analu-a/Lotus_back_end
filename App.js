@@ -550,7 +550,7 @@ app.get('/v1/Lotus/categoria/monitoramento/gestante/:id', cors(), async function
     response.json(dadosCategoriaMoni)
 })
 /***************************************************************************************/
-/**************************************** Enxoval *****************************************/
+/**************************************** Agenda *****************************************/
 
 app.get('/v1/Lotus/agenda', cors(), async function(request, response, next){
 
@@ -565,7 +565,7 @@ app.post('/v1/Lotus/agenda', cors(), bodyParserJSON, async function (request, re
     let contentType = request.headers['content-type']
     let dadosBody = request.body
 
-    let resultDados = await controllerEnxoval.setInserirEnxoval(dadosBody, contentType)
+    let resultDados = await controllerAgenda.setInserirAgenda(dadosBody, contentType)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
