@@ -19,7 +19,7 @@ const inserirAgenda = async function(dadosAgenda) {
     try {
         let sql
 
-        sql = `insert into agenda_calenario(
+        sql = `insert into agenda_calendario(
         descricao_calendario,
         data_calendario,
         horario_calendario,
@@ -29,8 +29,7 @@ const inserirAgenda = async function(dadosAgenda) {
         '${dadosAgenda.data_calendario}',
         '${dadosAgenda.horario_calendario}',
         '${dadosAgenda.usuario_calendario_id}'
-        )`
-
+        )`        
         let result = await prisma.$executeRawUnsafe(sql)
 
         if (result) {
@@ -40,6 +39,7 @@ const inserirAgenda = async function(dadosAgenda) {
         }
 
     } catch (error) {
+        console.error(error);
         return false
     }
 }
