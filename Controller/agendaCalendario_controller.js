@@ -35,7 +35,12 @@ const setInserirAgenda = async function (agendaDados, contentType) {
                 agendaDados.horario_calendario == "" || agendaDados.horario_calendario == undefined || agendaDados.horario_calendario != 8 ||
                 agendaDados.usuario_calendario_id == "" || agendaDados.usuario_calendario_id == undefined || isNaN(agendaDados.usuario_calendario_id)) {
 console.log(agendaDados);
-console.log('òiiii');
+
+console.log(agendaDados.descricao_calendario.length);
+console.log(agendaDados.data_calendario.length);
+console.log(agendaDados.horario_calendario.length);
+console.log(agendaDados.usuario_calendario_id.length);
+
 
 
                 return message.ERROR_REQUIRED_FIELDS
