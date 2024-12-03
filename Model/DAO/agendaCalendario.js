@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 const selectAllAgenda = async function () {
     try {
-        let sql = 'select * from agenda_calendario order by id_agenda_calendario desc'
+        let sql = 'select * from data_horario_agenda order by id_agenda_calendario desc'
         let rsAgenda = await prisma.$queryRawUnsafe(sql)
         return rsAgenda
 
@@ -105,7 +105,7 @@ const returnId = async function () {
 
 const selectByIdAgenda = async function (id) {
     try {
-        let sql = `select * from agenda_calendario where id_agenda_calendario = ${id}`
+        let sql = `select * from data_horario_agenda where id_agenda_calendario = ${id}`
 
         let rsAgenda = await prisma.$queryRawUnsafe(sql)
         return rsAgenda
