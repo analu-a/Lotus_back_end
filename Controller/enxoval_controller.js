@@ -30,7 +30,7 @@ const setInserirEnxoval = async function (enxovalDados, contentType) {
 
             let resultEnxovalDados = {}
 
-            if (enxovalDados.produtos_enxoval == "" || enxovalDados.produtos_enxoval == undefined || enxovalDados.produtos_enxoval.length > 30 ||
+            if (enxovalDados.produtos_enxoval == "" || enxovalDados.produtos_enxoval == undefined || enxovalDados.produtos_enxoval.length > 300 ||
                 enxovalDados.id_gestante_usuario_enxoval == "" || enxovalDados.id_gestante_usuario_enxoval == undefined || isNaN(enxovalDados.id_gestante_usuario_enxoval) ) {
 
                 return message.ERROR_REQUIRED_FIELDS
