@@ -34,6 +34,7 @@ const setInserirAgenda = async function (agendaDados, contentType) {
                 agendaDados.data_calendario == "" || agendaDados.data_calendario == undefined || isNaN(agendaDados.data_calendario) ||
                 agendaDados.horario_calendario == "" || agendaDados.horario_calendario == undefined || isNaN(agendaDados.horario_calendario) ||
                 agendaDados.usuario_calendario_id == "" || agendaDados.usuario_calendario_id == undefined || isNaN(agendaDados.usuario_calendario_id)) {
+console.log(agendaDados);
 
                 return message.ERROR_REQUIRED_FIELDS
 
